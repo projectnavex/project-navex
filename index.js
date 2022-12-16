@@ -14,4 +14,5 @@ function addLatLng(position, map) {
         position: position,
         map: map,
     })
+    alert(position)
 }
