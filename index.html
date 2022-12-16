@@ -5,34 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Navex</title>
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
+    <script type="text/javascript", src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1>Map</h1>
     <div id="map"></div>
-    <script>
-        function initMap() {
-            var options = {
-                zoom: 15,
-                center: {lat: 1.412811, lng: 103.774780}
-            }
-            var map = new google.maps.Map(document.getElementById('map'), options)
-            map.addListener("click", function(e) {
-                addLatLng(e.latLng, map);
-            });
-        }
-        function addLatLng(position, map) {
-            new google.maps.Marker({
-                position: position,
-                map: map,
-            })
-        }
-    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly">
     </script>
 </body>
