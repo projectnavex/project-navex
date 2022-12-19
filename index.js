@@ -29,7 +29,6 @@ function addLatLng(position, map) {
         position: position,
         map: map,
     })
-
     const path = poly.getPath(); // MVCarray
     path.push(position);
     document.getElementById("latlngs").innerHTML = path.getArray()[0].lat();
