@@ -14,7 +14,7 @@ function initMap() {
     poly = new google.maps.Polyline({
         strokeColor: "#000000",
         strokeOpacity: 1.0,
-        strokeWeight: 3,
+        strokeWeight: 1,
     });
     poly.setMap(map);
 
@@ -32,7 +32,6 @@ function addLatLng(position, map) {
 
     const path = poly.getPath(); // MVCarray
     path.push(position);
-
     document.getElementById("latlngs").innerHTML = path.getArray()[0].lat();
 }
 
