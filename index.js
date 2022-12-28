@@ -1,14 +1,13 @@
 let poly;
 let map;
-const EPSGUrl = "http://epsg.io/trans?x=0&y=0&s_srs=4326&t_srs=3168&callback=jsonpFunction";
 
 function initMap() {
-    // Set centre as Lor Asrama
+    // Set centre as Lor Asrama.
     var options = {
         zoom: 15,
         center: {lat: 1.412811, lng: 103.774780}
-    }
-    map = new google.maps.Map(document.getElementById('map'), options)
+    };
+    map = new google.maps.Map(document.getElementById('map'), options);
     
     // Setup Polylines
     poly = new google.maps.Polyline({
@@ -25,26 +24,45 @@ function initMap() {
 }
 
 function addLatLng(position, map) {
+    // Add marker to map.
     new google.maps.Marker({
         position: position,
         map: map,
-    })
+    });
     const path = poly.getPath(); // MVCarray
     path.push(position);
     document.getElementById("latlngs").innerHTML = path.getArray()[0].lat();
 }
 
-function convertToMGR() {
-    const latlngs = poly.getPath().getArray();
-    const mgrs = [];
+async function transformCoordinates() {
+    // Set the source and target projections.
+    const srcEpsg = 4326;
+    const dstEpsg = 3168;
 
-    for (let i=0; i<latlngs.length; i++) {
-        $.getJSON(`http://epsg.io/trans?x=${latlngs[i].lat()}&y=${latlngs[i].lng()}&s_srs=4326&t_srs=3168&callback=jsonpFunction`, function(result){
-            let mgr = JSON.parse(result);
-            alert(parseInt(mgr.x).toString() + parseInt(mgr.y).toString());
-            mgrs[i] = parseInt(mgr.x).toString() + parseInt(mgr.y).toString();
-        });
-    }
+    // Set the coordinates to transform.
+    let path = poly.getPath();
 
-    document.getElementById("button-test").innerHTML = mgrs;
+    path.forEach(function(latlng) {
+        const transformedCoordinates = [];
+        const lat = latlng.lat();
+        const lng = latlng.lng();
+
+        const url = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=jsonpFunction`;
+        
+        // Create a script element to make the JSONP request.
+        const script = document.createElement('script');
+        script.src = url;
+        document.body.appendChild(script);
+
+        // Define the callback function to handle the response.
+        window.jsonpFunction = function(response) {
+            // Add the transformed coordinates to the array.
+            transformedCoordinates.push({x: response.x, y: response.y});
+
+            // Check if all coordinates have been transformed.
+            if (transformedCoordinates.length === path.length) {
+                console.log(transformedCoordinates);
+            }
+        }
+    });
 }
