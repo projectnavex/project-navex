@@ -99,16 +99,22 @@ function getPoints(point1, point2, interval) {
 }
 
 function getNDS() {
+    // Resolve promise and unpack the converted coordinates.
     let promise = transformCoordinates();
     promise.then(coordinates => {
         console.log(coordinates);
+
+        // Initialize array to store NDS data.
         const nds = [];
+
+        // Find the subpoints between each checkpoint.
         for (i = 1; i < coordinates.length; i++) {
             const point1 = coordinates[i - 1];
             const point2 = coordinates[i];
             const subpoints = getPoints(point1, point2, interval);
             nds.push(subpoints);
         }
+        
         console.log(nds);
     })
 }
