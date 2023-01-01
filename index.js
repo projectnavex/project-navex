@@ -1,52 +1,117 @@
-let poly;
 let map;
-const EPSGUrl = "http://epsg.io/trans?x=0&y=0&s_srs=4326&t_srs=3168&callback=jsonpFunction";
+let poly;
+const interval = 50;
 
 function initMap() {
-    // Set centre as Lor Asrama
+    // Set centre as Lor Asrama.
     var options = {
         zoom: 15,
         center: {lat: 1.412811, lng: 103.774780}
-    }
-    map = new google.maps.Map(document.getElementById('map'), options)
+    };
+
+    map = new google.maps.Map(document.getElementById('map'), options);
     
     // Setup Polylines
     poly = new google.maps.Polyline({
         strokeColor: "#000000",
         strokeOpacity: 1.0,
-        strokeWeight: 3,
+        strokeWeight: 1,
     });
+
     poly.setMap(map);
 
     // Listener to add markers
     map.addListener("click", function(e) {
         addLatLng(e.latLng, map);
-    });
+    })
 }
 
 function addLatLng(position, map) {
+    // Add marker to map.
     new google.maps.Marker({
         position: position,
         map: map,
     })
 
-    const path = poly.getPath(); // MVCarray
+    // MVCarray
+    const path = poly.getPath();
     path.push(position);
-
-    document.getElementById("latlngs").innerHTML = path.getArray()[0].lat();
 }
 
-function convertToMGR() {
-    const latlngs = poly.getPath().getArray();
-    const mgrs = [];
+function transformCoordinates() {
+    // Set the source and target projections.
+    const srcEpsg = 4326;
+    const dstEpsg = 3168;
 
-    for (let i=0; i<latlngs.length; i++) {
-        $.getJSON(`http://epsg.io/trans?x=${latlngs[i].lat()}&y=${latlngs[i].lng()}&s_srs=4326&t_srs=3168&callback=jsonpFunction`, function(result){
-            let mgr = JSON.parse(result);
-            alert(parseInt(mgr.x).toString() + parseInt(mgr.y).toString());
-            mgrs[i] = parseInt(mgr.x).toString() + parseInt(mgr.y).toString();
-        });
+    // Set the coordinates to transform.
+    let path = poly.getPath();
+
+    const transformedCoordinates = [];
+
+    // Get a promise that resolves with the transformed coordinates.
+    return new Promise((resolve, reject) => {
+        // Loop through the coordinates array.
+        path.forEach(function(coord) {
+            // Extract the longitude and latitude.
+            const lat = coord.lat();
+            const lng = coord.lng();
+
+            // Build the URL for the request.
+            const url = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=jsonpFunction`;
+
+            // Create a script element to make the JSONP request.
+            const script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+        })
+
+        // Define the callback function to handle the response.
+        window.jsonpFunction = function(response) {
+            // Add the transformed coordinates to the array.
+            transformedCoordinates.push({x: response.x, y: response.y});
+
+            // Check if all coordinates have been transformed.
+            if (transformedCoordinates.length === path.length) {
+                // All coordinates have been transformed, so resolve the promise with the result.
+                resolve(transformedCoordinates);
+            }
+        }
+    })
+}
+
+function getPoints(point1, point2, interval) {
+    const xDistance = point1.x - point2.x;
+    const yDistance = point1.y - point2.y;
+    const distance = Math.sqrt(xDistance ** 2 + yDistance ** 2);
+    const numberOfPoints = Math.floor(distance / interval);
+
+    const xStep = xDistance / numberOfPoints;
+    const yStep = yDistance / numberOfPoints;
+
+    const points = [];
+
+    for (i = 1; i <= numberOfPoints; i++) {
+        points.push({x: point1.x + i * xStep, y: point1.y + i * yStep});
     }
 
-    document.getElementById("button-test").innerHTML = mgrs;
+    points.push({x: point2.x, y: point2.y});
+    return points;
+}
+
+function getNDS() {
+    // Resolve promise and unpack the converted coordinates.
+    let promise = transformCoordinates();
+    promise.then(rawCoordinates => {
+        console.log(rawCoordinates);
+
+        // Format coordinates.
+        const coordinates = [];
+        rawCoordinates.forEach(function(checkpoint) {
+            let lat = checkpoint.y.slice(1, 5);
+            let lng = checkpoint.x.slice(1, 5);
+            coordinates.push({x: parseInt(lng), y: parseInt(lat)});
+        })
+        
+        console.log(coordinates);
+    })
 }
