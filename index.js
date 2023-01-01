@@ -1,7 +1,7 @@
 let map;
 let poly;
-const interval = 50;
 
+// GOOGLE MAPS API
 function initMap() {
     // Set centre as Lor Asrama.
     var options = {
@@ -38,80 +38,99 @@ function addLatLng(position, map) {
     path.push(position);
 }
 
+
+
+// DATA PROCESSING
 function transformCoordinates() {
     // Set the source and target projections.
-    const srcEpsg = 4326;
-    const dstEpsg = 3168;
+    const srcEpsg = 4326; // WGS 84
+    const dstEpsg = 3168; // Kertau (RSO) / RSO Malaya
 
-    // Set the coordinates to transform.
-    let path = poly.getPath();
+    const path = poly.getPath();
+    let data = "";
 
-    const transformedCoordinates = [];
-
-    // Get a promise that resolves with the transformed coordinates.
-    return new Promise((resolve, reject) => {
-        // Loop through the coordinates array.
-        path.forEach(function(coord) {
-            // Extract the longitude and latitude.
-            const lat = coord.lat();
-            const lng = coord.lng();
-
-            // Build the URL for the request.
-            const url = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=jsonpFunction`;
-
-            // Create a script element to make the JSONP request.
-            const script = document.createElement('script');
-            script.src = url;
-            document.body.appendChild(script);
-        })
-
-        // Define the callback function to handle the response.
-        window.jsonpFunction = function(response) {
-            // Add the transformed coordinates to the array.
-            transformedCoordinates.push({x: response.x, y: response.y});
-
-            // Check if all coordinates have been transformed.
-            if (transformedCoordinates.length === path.length) {
-                // All coordinates have been transformed, so resolve the promise with the result.
-                resolve(transformedCoordinates);
-            }
-        }
+    // Format data for URL
+    path.getArray().forEach(function(point) {
+        data += point.lng().toString() + ',' + point.lat().toString() + ';';
     })
+
+    // Dynamic script tag
+    const script = document.createElement('script');
+    script.src = `http://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
+    document.body.appendChild(script);
 }
 
-function getPoints(point1, point2, interval) {
-    const xDistance = point1.x - point2.x;
-    const yDistance = point1.y - point2.y;
-    const distance = Math.sqrt(xDistance ** 2 + yDistance ** 2);
-    const numberOfPoints = Math.floor(distance / interval);
+function calcAzimuth(eDiff, nDiff) {
+    if (eDiff == 0) {
+        // Vertical
+        if (nDiff > 0) {
+            // Upwards
+            return 6400;
+        } else {
+            // Downwards
+            return 3200;
+        }
+    } else {
+        let angle = Math.atan(nDiff / eDiff);
+        if (eDiff > 0) {
+            // 1st & 4th quadrant
+            return Math.floor(1600 - (angle / (2 * Math.PI) * 6400));
+        } else {
+            // 2nd & 3rd quadrant
+            return Math.floor(4800 - (angle / (2 * Math.PI) * 6400));
+        }
+    }
+}
 
-    const xStep = xDistance / numberOfPoints;
-    const yStep = yDistance / numberOfPoints;
+function getNDS(response) {
+    const mgrs = [];
 
-    const points = [];
+    response.forEach(function(point) {
+        mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
+    })
 
-    for (i = 1; i <= numberOfPoints; i++) {
-        points.push({x: point1.x + i * xStep, y: point1.y + i * yStep});
+    // TODO CHECK FOR INTERVAL SLIDER
+    const interval = 100; // TEMP
+    const points = [mgrs[0]];
+    const ptDist = [];
+    const azimuths = [];
+
+    for (let i=1; i<mgrs.length; i++) {
+        let easting = mgrs[i-1].e;
+        let northing = mgrs[i-1].n;
+        
+        // Calculate distance & azimuth between 2 points
+        const eDiff = mgrs[i].e - easting;
+        const nDiff = mgrs[i].n - northing;
+        const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
+        const azimuth = calcAzimuth(eDiff, nDiff);
+
+        // Derive Easting & Northing increments for subpoints
+        const eIncrement = eDiff / dist;
+        const nIncrement = nDiff / dist;
+        
+        // Creating subpoints
+        for (let j=0; j<Math.floor(dist); j++) {
+            easting += eIncrement;
+            northing += nIncrement;
+
+            points.push({x: easting, y: northing});
+            ptDist.push(100);
+            azimuths.push(azimuth);
+        }
+
+        // If distance < interval or if distance not perfectly divisible by interval
+        const remainder = dist - Math.floor(dist);
+        easting += remainder * eIncrement;
+        northing += remainder * nIncrement;
+
+        points.push({x: easting, y: northing});
+        ptDist.push(Math.floor(remainder * interval));
+        azimuths.push(azimuth);
     }
 
-    points.push({x: point2.x, y: point2.y});
-    return points;
-}
-
-function getNDS() {
-    // Resolve promise and unpack the converted coordinates.
-    let promise = transformCoordinates();
-    promise.then(rawCoordinates => {
-        console.log(rawCoordinates);
-
-        // Format coordinates.
-        const coordinates = [];
-        rawCoordinates.forEach(function(checkpoint) {
-            let lat = checkpoint.y.slice(1, 5);
-            let lng = checkpoint.x.slice(1, 5);
-            coordinates.push({x: parseInt(lng), y: parseInt(lat)});
-        })
-        
-        console.log(coordinates);
-    })
+    console.log(mgrs);
+    console.log(points);
+    console.log(ptDist);
+    console.log(azimuths);
 }
