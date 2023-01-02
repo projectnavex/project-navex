@@ -155,10 +155,10 @@ function getNDS(response) {
     // Check for interval radio button.
     if (document.getElementById("day").checked) {
         // Day
-        interval = 50;
+        interval = 100;
     } else {
         // Night
-        interval = 100;
+        interval = 50;
     }
 
     const points = [mgrs[0]];
