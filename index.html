@@ -11,6 +11,8 @@
 </head>
 <body>
     <h1 class="center-text">Project Navex</h1>
+    
+    <h2 class="center-text">Plot Your Points</h2>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
     
@@ -31,7 +33,12 @@
             </radiogroup>
         </div>
     </div>
-    
-    <button onclick="transformCoordinates()">Generate</button>
-    
+
+    <h2 class="center-text">Clear Map or Generate NDS</h2>
+    <div class="follow-up-action">
+        <button id="clear" onclick="deleteMarkers()">Clear</button>
+        <button id="run" onclick="transformCoordinates()">Run</button>
+    </div>
+
+    <div id="table-div"></div>
 </html>

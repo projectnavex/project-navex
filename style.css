@@ -21,13 +21,12 @@ body {
 
 .radio-label {
     width: 100%;
-    margin-bottom: 1em;
     text-align: center;
 }
 
 .radio-pillbox {
     height: 3em;
-    width: 70%;
+    width: 360px;
     font-size: 1em;
     border: 0;
     border-radius: 75px;
@@ -73,4 +72,66 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
+}
+
+.follow-up-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 30px;
+}
+
+.follow-up-action button:active {
+    transform: scale(0.98);
+}
+
+#clear {
+    background-color: #ff5349;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 80px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#run {
+    background-color: #56c596;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 80px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#table-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 95%;
+    text-align: center;
+}
+
+th {
+    border:1px solid black;
+    background-color: #56c596;
+    padding: 4px;
+}
+
+td {
+    border:1px solid black;
+    padding: 4px;
+}
+
+tr:nth-child(even){
+    background-color: #212121;
 }

@@ -1,5 +1,6 @@
 let map;
 let poly;
+let markers = [];
 
 // GOOGLE MAPS API
 function initMap() {
@@ -30,14 +31,26 @@ function initMap() {
 
 function addLatLng(position, map) {
     // Add marker to map.
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
         position: position,
         map: map,
     })
 
+    markers.push(marker);
+
     // MVC-array
     const path = poly.getPath();
     path.push(position);
+}
+
+
+function deleteMarkers() {
+    for (let i=0; i<markers.length; i++) {
+        markers[i].setMap(null);
+    }
+
+    const path = poly.getPath();
+    path.clear();
 }
 
 // DATA PROCESSING
@@ -83,6 +96,45 @@ function calcAzimuth(eDiff, nDiff) {
     }
 }
 
+function createCell(type, text) {
+    const data = document.createElement(type);
+    const node = document.createTextNode(text);
+    data.appendChild(node);
+
+    return data;
+}
+
+function generateTable(points, azimuths, ptDists) {
+    const tableDiv = document.getElementById("table-div");
+    const table = document.createElement("table");
+
+    // Insert table headers
+    const headers = document.createElement("tr");
+    
+    headers.appendChild(createCell("th", "No."));
+    headers.appendChild(createCell("th", "Start MGR"));
+    headers.appendChild(createCell("th", "END MGR"));
+    headers.appendChild(createCell("th", "Azimuth"));
+    headers.appendChild(createCell("th", "Distance"));
+
+    table.appendChild(headers);
+
+    // Insert data
+    for (let i=0; i<azimuths.length; i++) {
+        const row = document.createElement("tr");
+
+        row.appendChild(createCell("td", i+1));
+        row.appendChild(createCell("td", Math.floor(points[i].e).toString() + ' ' +  Math.floor(points[i].n).toString()));
+        row.appendChild(createCell("td", Math.floor(points[i+1].e).toString() + ' ' +  Math.floor(points[i+1].n).toString()));
+        row.appendChild(createCell("td", azimuths[i]));
+        row.appendChild(createCell("td", ptDists[i]));
+
+        table.appendChild(row);
+    }
+
+    tableDiv.replaceChildren(table);
+}
+
 // JSONP callback function that receives JSON data from espg API.
 function getNDS(response) {
     // Store transformed MGRS.
@@ -96,7 +148,7 @@ function getNDS(response) {
     // TODO CHECK FOR INTERVAL SLIDER
     const interval = 100; // TEMP
     const points = [mgrs[0]];
-    const ptDist = [];
+    const ptDists = [];
     const azimuths = [];
 
     // Format MGRS data.
@@ -120,8 +172,8 @@ function getNDS(response) {
             easting += eIncrement;
             northing += nIncrement;
 
-            points.push({x: easting, y: northing});
-            ptDist.push(100);
+            points.push({e: easting, n: northing});
+            ptDists.push(100);
             azimuths.push(azimuth);
         }
 
@@ -130,13 +182,15 @@ function getNDS(response) {
         easting += remainder * eIncrement;
         northing += remainder * nIncrement;
 
-        points.push({x: easting, y: northing});
-        ptDist.push(Math.floor(remainder * interval));
+        points.push({e: easting, n: northing});
+        ptDists.push(Math.floor(remainder * interval));
         azimuths.push(azimuth);
     }
 
+    new generateTable(points, azimuths, ptDists);
+
     console.log(mgrs);
     console.log(points);
-    console.log(ptDist);
+    console.log(ptDists);
     console.log(azimuths);
 }
