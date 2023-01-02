@@ -27,7 +27,7 @@ body {
 
 .radio-pillbox {
     height: 3em;
-    width: 70%;
+    width: 360px;
     font-size: 1em;
     border: 0;
     border-radius: 75px;
@@ -73,4 +73,37 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
+}
+
+.follow-up-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.follow-up-action button:active {
+    transform: scale(0.98);
+}
+
+#clear {
+    background-color: #ff5349;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 80px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#run {
+    background-color: #56c596;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 80px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
 }

@@ -1,5 +1,6 @@
 let map;
 let poly;
+let markers = [];
 
 // GOOGLE MAPS API
 function initMap() {
@@ -28,14 +29,25 @@ function initMap() {
 
 function addLatLng(position, map) {
     // Add marker to map.
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
         position: position,
         map: map,
     })
 
+    markers.push(marker);
+
     // MVCarray
     const path = poly.getPath();
     path.push(position);
+}
+
+function deleteMarkers() {
+    for (let i=0; i<markers.length; i++) {
+        markers[i].setMap(null);
+    }
+
+    const path = poly.getPath();
+    path.clear();
 }
 
 
