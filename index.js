@@ -9,18 +9,20 @@ function initMap() {
         center: {lat: 1.412811, lng: 103.774780}
     };
 
+    // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
     
-    // Setup Polylines
+    // Setup Polylines.
     poly = new google.maps.Polyline({
         strokeColor: "#000000",
         strokeOpacity: 1.0,
         strokeWeight: 1,
     });
 
+    // Initialize polylines.
     poly.setMap(map);
 
-    // Listener to add markers
+    // Listener to add markers upon user click.
     map.addListener("click", function(e) {
         addLatLng(e.latLng, map);
     })
@@ -33,12 +35,10 @@ function addLatLng(position, map) {
         map: map,
     })
 
-    // MVCarray
+    // MVC-array
     const path = poly.getPath();
     path.push(position);
 }
-
-
 
 // DATA PROCESSING
 function transformCoordinates() {
@@ -46,15 +46,16 @@ function transformCoordinates() {
     const srcEpsg = 4326; // WGS 84
     const dstEpsg = 3168; // Kertau (RSO) / RSO Malaya
 
+    // path is the MVC-array of the points the user clicked on the map.
     const path = poly.getPath();
     let data = "";
 
-    // Format data for URL
+    // Format data for URL. For each point the user chose, add it to data.
     path.getArray().forEach(function(point) {
         data += point.lng().toString() + ',' + point.lat().toString() + ';';
     })
 
-    // Dynamic script tag
+    // Dynamic script tag.
     const script = document.createElement('script');
     script.src = `http://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
     document.body.appendChild(script);
@@ -98,7 +99,7 @@ function getNDS(response) {
     for (let i=1; i<mgrs.length; i++) {
         let easting = mgrs[i-1].e;
         let northing = mgrs[i-1].n;
-        
+
         // Calculate distance & azimuth between 2 points
         const eDiff = mgrs[i].e - easting;
         const nDiff = mgrs[i].n - northing;
@@ -108,7 +109,7 @@ function getNDS(response) {
         // Derive Easting & Northing increments for subpoints
         const eIncrement = eDiff / dist;
         const nIncrement = nDiff / dist;
-        
+
         // Creating subpoints
         for (let j=0; j<Math.floor(dist); j++) {
             easting += eIncrement;
