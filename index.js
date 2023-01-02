@@ -75,7 +75,7 @@ function transformCoordinates() {
 
     // Dynamic script tag. API transforms multiple coordinates at a time.
     const script = document.createElement('script');
-    script.src = `http://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
+    script.src = `https://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
     document.body.appendChild(script);
 }
 
@@ -149,9 +149,18 @@ function getNDS(response) {
     response.forEach(function(point) {
         mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
     })
+    
+    let interval;
 
-    // TODO CHECK FOR INTERVAL SLIDER
-    const interval = 100; // TEMP
+    // Check for interval radio button.
+    if (document.getElementById("day").checked) {
+        // Day
+        interval = 50;
+    } else {
+        // Night
+        interval = 100;
+    }
+
     const points = [mgrs[0]];
     const ptDists = [];
     const azimuths = [];
@@ -178,7 +187,7 @@ function getNDS(response) {
             northing += nIncrement;
 
             points.push({e: easting, n: northing});
-            ptDists.push(100);
+            ptDists.push(interval);
             azimuths.push(azimuth);
         }
 
