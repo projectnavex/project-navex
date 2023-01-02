@@ -21,7 +21,6 @@ body {
 
 .radio-label {
     width: 100%;
-    margin-bottom: 1em;
     text-align: center;
 }
 
@@ -80,6 +79,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 60px;
+    margin-bottom: 30px;
 }
 
 .follow-up-action button:active {
@@ -106,4 +106,32 @@ body {
     text-align: center;
     text-decoration: none;
     color: #ffffff;
+}
+
+#table-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 95%;
+    text-align: center;
+}
+
+th {
+    border:1px solid black;
+    background-color: #56c596;
+    padding: 4px;
+}
+
+td {
+    border:1px solid black;
+    padding: 4px;
+}
+
+tr:nth-child(even){
+    background-color: #212121;
 }
