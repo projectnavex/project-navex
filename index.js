@@ -55,7 +55,7 @@ function transformCoordinates() {
         data += point.lng().toString() + ',' + point.lat().toString() + ';';
     })
 
-    // Dynamic script tag.
+    // Dynamic script tag. API transforms multiple coordinates at a time.
     const script = document.createElement('script');
     script.src = `http://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
     document.body.appendChild(script);
@@ -83,9 +83,12 @@ function calcAzimuth(eDiff, nDiff) {
     }
 }
 
+// JSONP callback function that receives JSON data from espg API.
 function getNDS(response) {
+    // Store transformed MGRS.
     const mgrs = [];
 
+    // Loop through JSON data and add data to mgrs array.
     response.forEach(function(point) {
         mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
     })
@@ -96,9 +99,11 @@ function getNDS(response) {
     const ptDist = [];
     const azimuths = [];
 
-    for (let i=1; i<mgrs.length; i++) {
-        let easting = mgrs[i-1].e;
-        let northing = mgrs[i-1].n;
+    // Format MGRS data.
+    for (let i = 1; i < mgrs.length; i++) {
+        // Previous point.
+        let easting = mgrs[i - 1].e;
+        let northing = mgrs[i - 1].n;
 
         // Calculate distance & azimuth between 2 points
         const eDiff = mgrs[i].e - easting;
@@ -111,7 +116,7 @@ function getNDS(response) {
         const nIncrement = nDiff / dist;
 
         // Creating subpoints
-        for (let j=0; j<Math.floor(dist); j++) {
+        for (let j = 0; j < Math.floor(dist); j++) {
             easting += eIncrement;
             northing += nIncrement;
 
