@@ -6,12 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Navex</title>
     <script type="text/javascript", src="index.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Project Navex</h1>
+    <h1 class="center-text">Project Navex</h1>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
-    <button onclick="getNDS()">Get NDS</button>
-</body>
+    
+    <h2 class="center-text">Intervals</h2>
+    <div class="intervals">
+        <div class="radio-pillbox">
+            <radiogroup>
+                <div>
+                    <input type="radio" name="radio-group" id="day" value="day" class="first" checked>
+                    <label for="day" class="radio-label">Day (50m)</label>
+                    </input>
+                </div>
+                <div>
+                    <input type="radio" name="radio-group" id="night" value="night" class="last">
+                    <label for="night">Night (100m)</label>
+                    </input>
+                </div>
+            </radiogroup>
+        </div>
+    </div>
+    
+    <button onclick="transformCoordinates()">Generate</button>
+    
 </html>
