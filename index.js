@@ -7,11 +7,16 @@ function initMap() {
     // Set centre as Lor Asrama.
     var options = {
         zoom: 15,
-        center: {lat: 1.412811, lng: 103.774780}
+        center: {lat: 1.412811, lng: 103.774780},
+        clickableIcons: false,
+        disableDefaultUI: true,
+        disableDoubleClickZoom: true,
+        keyboardShortcuts: false
     };
 
     // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
+
     
     // Setup Polylines.
     poly = new google.maps.Polyline({
@@ -113,7 +118,7 @@ function generateTable(points, azimuths, ptDists) {
     
     headers.appendChild(createCell("th", "No."));
     headers.appendChild(createCell("th", "Start MGR"));
-    headers.appendChild(createCell("th", "END MGR"));
+    headers.appendChild(createCell("th", "End MGR"));
     headers.appendChild(createCell("th", "Azimuth"));
     headers.appendChild(createCell("th", "Distance"));
 
@@ -188,9 +193,4 @@ function getNDS(response) {
     }
 
     new generateTable(points, azimuths, ptDists);
-
-    console.log(mgrs);
-    console.log(points);
-    console.log(ptDists);
-    console.log(azimuths);
 }
