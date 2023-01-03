@@ -21,6 +21,16 @@ h1 {
     width: 100%;
 }
 
+.map-control-buttons {
+    background-color: #56c596;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
 .center-text {
     text-align: center;
 }

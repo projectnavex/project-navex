@@ -10,9 +10,6 @@ function initMap() {
         zoom: 15,
         center: {lat: 1.412811, lng: 103.774780},
         mapTypeControl: true,
-        mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-            mapTypeIds: ["roadmap", "hybrid"]},
         clickableIcons: false,
         disableDefaultUI: true,
         disableDoubleClickZoom: true,

@@ -16,6 +16,10 @@
     <h3 class="center-text">Plot Your Points</h3>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
+    <div id="map-control">
+        <button id="roadmap" class="map-control-buttons" onclick="map.setMapTypeId('roadmap');">Roadmap</button>
+        <button id="hybrid" class="map-control-buttons" onclick="map.setMapTypeId('hybrid');">Hybrid</button>
+    </div>
     
     <h3 class="center-text">Intervals</h3>
     <div class="intervals">
