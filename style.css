@@ -21,6 +21,34 @@ h1 {
     width: 100%;
 }
 
+#user-mgr {
+    padding-top: 20px;
+}
+
+#user-mgr-box {
+    font-family: 'Space Mono';
+    text-align: center;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 225px;
+    padding: 0.75em;
+    font-weight: bold;
+}
+
+#user-mgr-button {
+    background-color: #35a073;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 100px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
 .center-text {
     text-align: center;
 }
@@ -72,7 +100,7 @@ h1 {
 }
 
 .radio-pillbox radiogroup div input:checked {
-    background-color: #56c596;
+    background-color: #35a073;
     border: none;
 }
 
@@ -118,7 +146,7 @@ h1 {
 }
 
 #run {
-    background-color: #56c596;
+    background-color: #35a073;
     border-radius: 75px;
     border: 2px solid #ffffff;
     width: 80px;

@@ -234,7 +234,7 @@ function generateTable(points, azimuths, ptDists) {
 
 function addUserMGR() {
   // Extract MGR from input box.
-  const mgr = document.getElementById("user-mgr").value;
+  const mgr = document.getElementById("user-mgr-box").value;
   
   // Invalid MGR.
   if (mgr.length != 8 | isNaN(mgr)) {
@@ -245,8 +245,8 @@ function addUserMGR() {
 
   const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
   const dstEpsg = 4326; // WGS 84
-  const lng = "".concat("6", mgr.slice(0, 4), "0");;
-  const lat = "".concat("1", mgr.slice(4, 8), "0");;
+  const lng = "".concat("6", mgr.slice(0, 4), "0");
+  const lat = "".concat("1", mgr.slice(4, 8), "0");
   console.log(lat, lng);
 
   // Convert MGR to coordinates used by Google Maps.
