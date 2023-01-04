@@ -234,25 +234,26 @@ function generateTable(points, azimuths, ptDists) {
 
 function addUserMGR() {
   // Extract MGR from input box.
-  const mgr = document.getElementById("user-mgr-box").value;
+  var inputBox = document.getElementById("user-mgr-box")
+  const mgr = inputBox.value;
   
   // Invalid MGR.
   if (mgr.length != 8 | isNaN(mgr)) {
     document.getElementById("user-input-result").innerHTML = "Invalid MGR";
   } else {
     document.getElementById("user-input-result").innerHTML = "Your MGR has been added!";
+    const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
+    const dstEpsg = 4326; // WGS 84
+    const lng = "".concat("6", mgr.slice(0, 4), "0");
+    const lat = "".concat("1", mgr.slice(4, 8), "0");
+  
+    // Convert MGR to coordinates used by Google Maps.
+    const script = document.createElement('script');
+    script.src = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
+    document.body.appendChild(script);
   }
 
-  const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
-  const dstEpsg = 4326; // WGS 84
-  const lng = "".concat("6", mgr.slice(0, 4), "0");
-  const lat = "".concat("1", mgr.slice(4, 8), "0");
-  console.log(lat, lng);
-
-  // Convert MGR to coordinates used by Google Maps.
-  const script = document.createElement('script');
-  script.src = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
-  document.body.appendChild(script);
+  inputBox.value = "";
 }
 
 // ADDS MGR ON MAP BUT DOESN'T ADD CORRECTLY.

@@ -27,11 +27,12 @@ h1 {
 
 #user-mgr-box {
     font-family: 'Space Mono';
+    font-size: 16px;
     text-align: center;
     border-radius: 75px;
     border: 2px solid #ffffff;
     width: 225px;
-    padding: 0.75em;
+    padding: 0.65em;
     font-weight: bold;
 }
 
@@ -174,7 +175,7 @@ table {
 
 th {
     border:1px solid black;
-    background-color: #56c596;
+    background-color: #35a073;
     padding: 6px 2px;
 }
 
