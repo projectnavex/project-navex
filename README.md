@@ -4,7 +4,6 @@ Plot your navex checkpoints on the map and get your navigational data sheet (NDS
 
 ## Todo
 
-* Highlight chosen checkpoints in NDS.
-* Option to change map to satellite view.
 * User able to key in / remove / swap around checkpoints.
-* Database of known checkpoints.
+* Highlight chosen checkpoints in NDS.
+* Database of known checkpoints?
