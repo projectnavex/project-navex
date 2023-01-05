@@ -23,16 +23,21 @@ h1 {
 
 #user-mgr {
     padding-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #user-mgr-box {
     font-family: 'Space Mono';
     font-size: 16px;
+    width: 225px;
     text-align: center;
     border-radius: 75px;
     border: 2px solid #ffffff;
-    width: 225px;
-    padding: 0.65em;
+    padding: 0.60em;
+    margin-right: 10px;
     font-weight: bold;
 }
 
@@ -40,7 +45,6 @@ h1 {
     background-color: #35a073;
     border-radius: 75px;
     border: 2px solid #ffffff;
-    width: 100px;
     padding: 1em;
     text-align: center;
     text-decoration: none;
@@ -144,6 +148,8 @@ h1 {
     font-weight: bold;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 #run {
