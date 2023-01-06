@@ -88,7 +88,6 @@ h1 {
 
 .radio-pillbox radiogroup div input:checked ~ label {
     color: #fff;
-    font-weight: bold;
 }
 
 #mgr-input {

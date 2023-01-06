@@ -249,7 +249,7 @@ function addUserMGR() {
   
     // Convert MGR to coordinates used by Google Maps.
     const script = document.createElement('script');
-    script.src = `http://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
+    script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
     document.body.appendChild(script);
   }
 
