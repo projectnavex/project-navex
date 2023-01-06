@@ -1,7 +1,7 @@
 body {
     background-color: #303030;
-    font-family: 'Space Mono';
     color: white;
+    font-family: 'Space Mono';
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -21,39 +21,6 @@ h1 {
     width: 100%;
 }
 
-#user-mgr {
-    padding-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#user-mgr-box {
-    font-family: 'Space Mono';
-    font-size: 16px;
-    width: 225px;
-    text-align: center;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    padding: 0.60em;
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-#user-mgr-button {
-    background-color: #35a073;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    padding: 1em;
-    text-align: center;
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: bold;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
-}
-
 .center-text {
     text-align: center;
 }
@@ -71,14 +38,14 @@ h1 {
 }
 
 .radio-pillbox {
+    background: #fff;
+    color: #000;
     height: 3em;
     width: 360px;
     font-size: 1em;
     border: 0;
     border-radius: 75px;
     overflow: hidden;
-    background: #ffffff;
-    color: #000000;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -98,8 +65,7 @@ h1 {
     appearance: inherit;
     width: 100%;
     height: 100%;
-    -webkit-transition: background 300ms ease-out;
-    transition: background 300ms ease-out;
+    transition: background 100ms ease-out;
     margin: 0;
     outline: 0;
     border-left: 1px solid rgba(0, 0, 0, 0.05);
@@ -121,8 +87,41 @@ h1 {
 }
 
 .radio-pillbox radiogroup div input:checked ~ label {
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
+}
+
+#mgr-input {
+    padding-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mgr-input-box {
+    font-family: 'Space Mono';
+    font-size: 16px;
+    width: 225px;
+    text-align: center;
+    border-radius: 75px;
+    border: 2px solid #fff;
+    padding: 0.60em;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#mgr-input-button {
+    background-color: #35a073;
+    border-radius: 75px;
+    border: 2px solid #fff;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 .follow-up-action {

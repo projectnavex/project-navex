@@ -234,7 +234,7 @@ function generateTable(points, azimuths, ptDists) {
 
 function addUserMGR() {
   // Extract MGR from input box.
-  var inputBox = document.getElementById("user-mgr-box")
+  var inputBox = document.getElementById("mgr-input-box")
   const mgr = inputBox.value;
   
   // Invalid MGR.
