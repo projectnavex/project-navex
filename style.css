@@ -148,8 +148,6 @@ h1 {
     font-weight: bold;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 #run {
@@ -190,6 +188,6 @@ td {
     padding: 6px 2px;
 }
 
-tr:nth-child(even){
+tr:nth-child(even) {
     background-color: #212121;
 }
