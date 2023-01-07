@@ -21,6 +21,20 @@ h1 {
     width: 100%;
 }
 
+/* HTML for infowindow is defined in index.js -_- */
+#infowindow input {
+    margin: 2px;
+    background-color: #f23a49;
+    border-radius: 5px;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: 'Space Mono';
+    font-size: 10px;
+    padding: 5px;
+    outline: none;
+}
+
 .center-text {
     text-align: center;
 }

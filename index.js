@@ -139,9 +139,11 @@ function addLatLng(position, map) {
     uniqueID++;
 
     // Initialize infowindow for each marker.
-    const content = "<input type='button' value='Delete' onclick='deleteMarker("+ marker.id +")'/>";
-    const infowindow = new google.maps.InfoWindow();
-    infowindow.setOptions({
+    const content = 
+      '<div id="infowindow">' + 
+      '<input type="button" value="Delete" onclick="deleteMarker('+ marker.id +')"/>' +
+      '</div>';
+    const infowindow = new google.maps.InfoWindow({
       content: content
     })
 
