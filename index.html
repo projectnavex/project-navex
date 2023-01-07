@@ -19,7 +19,12 @@
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
     
-    <h3 class="center-text">Intervals</h3>
+    <div id="mgr-input" class="center-text">
+        <input type="text" placeholder="Enter your MGR" id="mgr-input-box"></input>
+        <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
+    </div>
+    <p id="user-input-result" class="center-text"></p>
+
     <div class="intervals">
         <div class="radio-pillbox">
             <radiogroup>
@@ -34,12 +39,6 @@
             </radiogroup>
         </div>
     </div>
-
-    <div id="mgr-input" class="center-text">
-        <input type="text" id="mgr-input-box"></input>
-        <button id="mgr-input-button" onclick="addUserMGR()">Add MGR</button>
-    </div>
-    <p id="user-input-result" class="center-text"></p>
     
     <h3 class="center-text">Clear Map or Generate NDS</h3>
     <div class="follow-up-action">

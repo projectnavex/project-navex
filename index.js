@@ -171,9 +171,6 @@ function deleteMarker(id) {
   
   // Refresh polyline path so that it no longer follows deleted marker.
   poly.setPath(markers.map(marker => marker.position));
-
-  // Recalculate NDS. Should we include this feature?
-  transformCoordinates();
 }
 
 // Delete all markers.
@@ -182,8 +179,12 @@ function deleteMarkers() {
         markers[i].setMap(null);
     }
 
+    // Clear polylines.
     const path = poly.getPath();
     path.clear();
+
+    // Clear markers.
+    markers = [];
 }
 
 // Transform Google Map coordinates into the MGR that we use.
