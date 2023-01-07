@@ -4,6 +4,6 @@ Plot your navex checkpoints on the map and get your navigational data sheet (NDS
 
 ## Todo
 
-* User able to key in / remove / swap around checkpoints.
+* Fix Safari issue.
+* Undo added checkpoints.
 * Highlight chosen checkpoints in NDS.
-* Database of known checkpoints?
