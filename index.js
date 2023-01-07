@@ -1,5 +1,6 @@
 let map;
 let poly;
+let uniqueID = 1;
 let markers = [];
 
 // GOOGLE MAPS API
@@ -122,7 +123,7 @@ function initMap() {
 
     // Listener to add markers upon user click.
     map.addListener("click", function(e) {
-        addLatLng(e.latLng, map);
+      addLatLng(e.latLng, map);
     })
 }
 
@@ -133,14 +134,49 @@ function addLatLng(position, map) {
         map: map,
     })
 
+    // Add unique ID to each marker for easier deletion.
+    marker.id = uniqueID;
+    uniqueID++;
+
+    // Initialize infowindow for each marker.
+    const content = "<input type='button' value='Delete' onclick='deleteMarker("+ marker.id +")'/>";
+    const infowindow = new google.maps.InfoWindow();
+    infowindow.setOptions({
+      content: content
+    })
+
+    // Add even listener to markers.
+    marker.addListener("click", function(e) {
+      infowindow.open(map, marker);
+    })
+
     markers.push(marker);
 
-    // MVC-array
+    // MVC-array that stores coordinates.
     const path = poly.getPath();
     path.push(position);
 }
 
+// Delete specific marker.
+function deleteMarker(id) {
+  for (var i = 0; i < markers.length; i++) {
+    if (markers[i].id == id) {
+      // Remove the marker from the map.
+      markers[i].setMap(null);
 
+      // Remove the marker from the markers array.
+      markers.splice(i, 1);
+    }
+  }
+  
+  // Refresh polyline path so that it no longer follows deleted marker.
+  poly.setPath(markers.map(marker => marker.position));
+
+  // Recalculate NDS. Should we include this feature?
+  transformCoordinates();
+}
+
+// Delete all markers.
 function deleteMarkers() {
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
@@ -150,7 +186,7 @@ function deleteMarkers() {
     path.clear();
 }
 
-// DATA PROCESSING
+// Transform Google Map coordinates into the MGR that we use.
 function transformCoordinates() {
     // Set the source and target projections.
     const srcEpsg = 4326; // WGS 84
@@ -241,6 +277,8 @@ function addUserMGR() {
   if (mgr.length != 8 | isNaN(mgr)) {
     document.getElementById("user-input-result").innerHTML = "Invalid MGR";
   } else {
+
+    // Valid MGR.
     document.getElementById("user-input-result").innerHTML = "Your MGR has been added!";
     const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
     const dstEpsg = 4326; // WGS 84
@@ -256,7 +294,7 @@ function addUserMGR() {
   inputBox.value = "";
 }
 
-// ADDS MGR ON MAP BUT DOESN'T ADD CORRECTLY.
+// JSONP callback function for adding users point on the map.
 function getUserPoint(response) {
   var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
   addLatLng(position, map);
