@@ -6,12 +6,12 @@ body {
 }
 
 h1 {
-    color: #56c596
+    color: #56c596;
+    font-family: 'Major Mono Display';
 }
 
 .instructions {
     font-size: 16px;
-    font-style: italic;
     opacity: 0.7;
     text-align: center;
 }
