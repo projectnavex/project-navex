@@ -23,6 +23,10 @@ h1 {
     margin: 20px;
 }
 
+.center-text {
+    text-align: center;
+}
+
 #map {
     height: 400px;
     width: 100%;
@@ -42,98 +46,29 @@ h1 {
     outline: none;
 }
 
-.center-text {
-    text-align: center;
-}
-
-.intervals {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.radio-label {
-    width: 100%;
-    text-align: center;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-.radio-pillbox {
-    background: #ffffff;
-    color: #000000;
-    height: 48px;
-    width: 360px;
-    font-size: 1em;
-    border: 0;
-    border-radius: 75px;
-    overflow: hidden;
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
-    -webkit-appearance: none;
-}
-
-.radio-pillbox radiogroup {
-    height: 100%;
-    width: 100%;
-    display: flex;
-}
-
-.radio-pillbox radiogroup div {
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-
-.radio-pillbox radiogroup div input {
-    appearance: none;
-    width: 100%;
-    height: 100%;
-    transition: background 100ms ease-out;
-    -webkit-transition: background 100ms ease-out;
-    -moz-transition: background 100ms ease-out;
-    -ms-transition: background 100ms ease-out;
-    -o-transition: background 100ms ease-out;
-    margin: 0;
-    outline: 0;
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.radio-pillbox radiogroup div input:checked {
-    background-color: #346751;
-    border: none;
-}
-
-.radio-pillbox radiogroup div input:checked ~ label {
-    color: #ffffff;
-}
-
-.radio-pillbox radiogroup div label {
-    position: absolute;
-    top: 50%;
-    line-height: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-}
-
+/* Manual MGR input */
 #mgr-input {
-    padding-top: 20px;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+}
+
+#mgr-input-group {
+    width: 360px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 #mgr-input-box {
     font-family: 'Space Mono';
     font-size: 16px;
-    width: 240px;
     text-align: center;
     border-radius: 75px;
     border: 2px solid #ffffff;
     padding: 0.60em;
-    margin-right: 10px;
+    width: 240px;
 }
 
 #mgr-input-button {
@@ -145,12 +80,61 @@ h1 {
     text-decoration: none;
     color: #ffffff;
     font-family: 'Space Mono';
-    width: 80px;
     cursor: pointer;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    width: 80px;
 }
 
+/* Intervals pillbox */
+.intervals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.radiogroup {
+    width: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.radiogroup label {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    background: #ffffff;
+    color: #000000;
+    border: 0;
+    padding: 0.60em;
+    transition: background 100ms ease-out;
+    -webkit-transition: background 100ms ease-out;
+    -moz-transition: background 100ms ease-out;
+    -ms-transition: background 100ms ease-out;
+    -o-transition: background 100ms ease-out;
+}
+
+.radiogroup .radio-left {
+    border-radius: 75px 0 0 75px;
+}
+
+.radiogroup .radio-right {
+    border-radius: 0 75px 75px 0;
+}
+
+.radiogroup label input {
+    display: none;
+}
+
+.radiogroup label:has(input:checked) {
+    background-color: #346751;
+    color: #ffffff;
+}
+
+/* Follow up action */
 .follow-up-action {
     display: flex;
     justify-content: center;
@@ -193,6 +177,7 @@ h1 {
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
+/* NDS table */
 #table-div {
     display: flex;
     justify-content: center;

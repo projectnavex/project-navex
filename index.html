@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1 class="center-text">Project Navex</h1>
     <p class="instructions">Generate your Navigation Data Sheet with a few simple clicks...</p>
@@ -18,28 +19,31 @@
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
     
-    <div id="mgr-input" class="center-text">
-        <input type="tel" placeholder="Enter your MGR" id="mgr-input-box"></input>
-        <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
+    <p class="instructions">Or manually input your points.</p>
+    <div id="mgr-input">
+        <div id="mgr-input-group">
+            <input type="tel" placeholder="Enter your MGR" id="mgr-input-box"></input>
+            <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
+        </div>
     </div>
     <p id="user-input-result" class="center-text"></p>
 
+    <p class="instructions">Set distance intervals.</p>
     <div class="intervals">
-        <div class="radio-pillbox">
-            <radiogroup>
-                <div>
-                    <input type="radio" name="radio-group" id="day" value="day" class="first" checked></input>
-                    <label for="day" class="radio-label">Day (100m)</label>
-                </div>
-                <div>
-                    <input type="radio" name="radio-group" id="night" value="night" class="last"></input>
-                    <label for="night" class="radio-label">Night (50m)</label>
-                </div>
-            </radiogroup>
+        <div class="radiogroup">
+            <label class="radio-left">
+                Day (100m)
+                <input type="radio" name="radio-group" id="day" value="day" checked />
+            </label>
+
+            <label class="radio-right">
+                Night (50m)
+                <input type="radio" name="radio-group" id="night" value="night"></input>
+            </label>
         </div>
     </div>
     
-    <p class="instructions">Clear Map or Generate NDS</p>
+    <p class="instructions">Clear Map or Generate NDS.</p>
     <div class="follow-up-action">
         <button id="clear" onclick="deleteMarkers()">Clear</button>
         <button id="run" onclick="transformCoordinates()">Run</button>
