@@ -250,7 +250,7 @@ function generateTable(points, azimuths, ptDists) {
     headers.appendChild(createCell("th", "No."));
     headers.appendChild(createCell("th", "Start MGR"));
     headers.appendChild(createCell("th", "End MGR"));
-    headers.appendChild(createCell("th", "Azimuth"));
+    headers.appendChild(createCell("th", "Mil"));
     headers.appendChild(createCell("th", "Dist."));
 
     table.appendChild(headers);
