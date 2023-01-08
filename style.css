@@ -1,11 +1,11 @@
 ::selection {
     /* Change highlight background color. */
-    background: #000;
+    background: #000000;
   }
 
 body {
     background-color: #161616;
-    color: white;
+    color: #ffffff;
     font-family: 'Space Mono';
     margin: 0;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
@@ -21,6 +21,10 @@ h1 {
     opacity: 0.7;
     text-align: center;
     margin: 20px;
+}
+
+.center-text {
+    text-align: center;
 }
 
 #map {
@@ -42,113 +46,94 @@ h1 {
     outline: none;
 }
 
-.center-text {
+/* Manual MGR input */
+#mgr-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
+#mgr-input-group {
+    width: 360px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#mgr-input-box {
+    font-family: 'Space Mono';
+    font-size: 16px;
+    text-align: center;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    padding: 0.60em;
+    width: 240px;
+}
+
+#mgr-input-button {
+    background-color: #346751;
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Space Mono';
+    cursor: pointer;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    width: 80px;
+}
+
+/* Intervals pillbox */
 .intervals {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.radio-label {
-    width: 100%;
-    text-align: center;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-.radio-pillbox {
-    background: #fff;
-    color: #000;
-    height: 3em;
+.radiogroup {
     width: 360px;
-    font-size: 1em;
-    border: 0;
-    border-radius: 75px;
-    overflow: hidden;
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
-}
-
-.radio-pillbox radiogroup {
-    height: 100%;
-    width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
-.radio-pillbox radiogroup div {
-    width: 100%;
-    position: relative;
-}
-
-.radio-pillbox radiogroup div input {
-    appearance: none;
-    width: 100%;
+.radiogroup label {
     height: 100%;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    background: #ffffff;
+    color: #000000;
+    border: 0;
+    padding: 0.60em;
     transition: background 100ms ease-out;
     -webkit-transition: background 100ms ease-out;
     -moz-transition: background 100ms ease-out;
     -ms-transition: background 100ms ease-out;
     -o-transition: background 100ms ease-out;
-    margin: 0;
-    outline: 0;
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.radio-pillbox radiogroup div input:checked {
+.radiogroup .radio-left {
+    border-radius: 75px 0 0 75px;
+}
+
+.radiogroup .radio-right {
+    border-radius: 0 75px 75px 0;
+}
+
+.radiogroup label input {
+    display: none;
+}
+
+.radiogroup label:has(input:checked) {
     background-color: #346751;
-    border: none;
+    color: #ffffff;
 }
 
-.radio-pillbox radiogroup div input:checked ~ label {
-    color: #fff;
-}
-
-.radio-pillbox radiogroup div label {
-    position: absolute;
-    top: 50%;
-    line-height: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-}
-
-#mgr-input {
-    padding-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#mgr-input-box {
-    font-family: 'Space Mono';
-    font-size: 16px;
-    width: 240px;
-    text-align: center;
-    border-radius: 75px;
-    border: 2px solid #fff;
-    padding: 0.60em;
-    margin-right: 10px;
-}
-
-#mgr-input-button {
-    background-color: #346751;
-    border-radius: 75px;
-    border: 2px solid #fff;
-    padding: 1em;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    font-family: 'Space Mono';
-    width: 80px;
-    cursor: pointer;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
-}
-
+/* Follow up action */
 .follow-up-action {
     display: flex;
     justify-content: center;
@@ -191,6 +176,7 @@ h1 {
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
+/* NDS table */
 #table-div {
     display: flex;
     justify-content: center;
@@ -198,20 +184,20 @@ h1 {
 }
 
 table {
-    border: 1px solid black;
+    border: 1px solid #000000;
     border-collapse: collapse;
     width: 95%;
     text-align: center;
 }
 
 th {
-    border:1px solid black;
+    border:1px solid #000000;
     background-color: #346751;
     padding: 6px 2px;
 }
 
 td {
-    border:1px solid black;
+    border:1px solid #000000;
     padding: 6px 2px;
 }
 
