@@ -1,11 +1,11 @@
 ::selection {
     /* Change highlight background color. */
-    background: #000;
+    background: #000000;
   }
 
 body {
     background-color: #161616;
-    color: white;
+    color: #ffffff;
     font-family: 'Space Mono';
     margin: 0;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
@@ -60,9 +60,9 @@ h1 {
 }
 
 .radio-pillbox {
-    background: #fff;
-    color: #000;
-    height: 3em;
+    background: #ffffff;
+    color: #000000;
+    height: 48px;
     width: 360px;
     font-size: 1em;
     border: 0;
@@ -78,6 +78,7 @@ h1 {
 }
 
 .radio-pillbox radiogroup div {
+    height: 100%;
     width: 100%;
     position: relative;
 }
@@ -102,7 +103,7 @@ h1 {
 }
 
 .radio-pillbox radiogroup div input:checked ~ label {
-    color: #fff;
+    color: #ffffff;
 }
 
 .radio-pillbox radiogroup div label {
@@ -129,7 +130,7 @@ h1 {
     width: 240px;
     text-align: center;
     border-radius: 75px;
-    border: 2px solid #fff;
+    border: 2px solid #ffffff;
     padding: 0.60em;
     margin-right: 10px;
 }
@@ -137,11 +138,11 @@ h1 {
 #mgr-input-button {
     background-color: #346751;
     border-radius: 75px;
-    border: 2px solid #fff;
+    border: 2px solid #ffffff;
     padding: 1em;
     text-align: center;
     text-decoration: none;
-    color: #fff;
+    color: #ffffff;
     font-family: 'Space Mono';
     width: 80px;
     cursor: pointer;
@@ -198,20 +199,20 @@ h1 {
 }
 
 table {
-    border: 1px solid black;
+    border: 1px solid #000000;
     border-collapse: collapse;
     width: 95%;
     text-align: center;
 }
 
 th {
-    border:1px solid black;
+    border:1px solid #000000;
     background-color: #346751;
     padding: 6px 2px;
 }
 
 td {
-    border:1px solid black;
+    border:1px solid #000000;
     padding: 6px 2px;
 }
 
