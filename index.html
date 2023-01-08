@@ -22,7 +22,7 @@
     <p class="instructions">Or manually input your points.</p>
     <div id="mgr-input">
         <div id="mgr-input-group">
-            <input type="tel" placeholder="Enter your MGR" id="mgr-input-box"></input>
+            <input type="tel" placeholder="Enter your MGR" id="mgr-input-box">
             <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
         </div>
     </div>
@@ -31,15 +31,11 @@
     <p class="instructions">Set distance intervals.</p>
     <div class="intervals">
         <div class="radiogroup">
-            <label class="radio-left">
-                Day (100m)
-                <input type="radio" name="radio-group" id="day" value="day" checked />
-            </label>
-
-            <label class="radio-right">
-                Night (50m)
-                <input type="radio" name="radio-group" id="night" value="night"></input>
-            </label>
+            <input type="radio" name="radio-group" id="day" value="day" checked>
+            <label class="radio-left" for="day">Day (100m)</label>
+    
+            <input type="radio" name="radio-group" id="night" value="night">
+            <label class="radio-right" for="night">Night (50m)</label>
         </div>
     </div>
     
