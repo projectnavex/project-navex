@@ -69,6 +69,7 @@ h1 {
     border-radius: 75px;
     overflow: hidden;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+    -webkit-appearance: none;
 }
 
 .radio-pillbox radiogroup {
