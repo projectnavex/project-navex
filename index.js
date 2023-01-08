@@ -123,7 +123,7 @@ function initMap() {
 
     // Listener to add markers upon user click.
     map.addListener("click", function(e) {
-      addLatLng(e.latLng, map);
+    	addLatLng(e.latLng, map);
     })
 }
 
@@ -140,16 +140,16 @@ function addLatLng(position, map) {
 
     // Initialize infowindow for each marker.
     const content = 
-      '<div id="infowindow">' + 
-      '<input type="button" value="Delete" onclick="deleteMarker('+ marker.id +')"/>' +
-      '</div>';
+		'<div id="infowindow">' + 
+		'<input type="button" value="Delete" onclick="deleteMarker('+ marker.id +')"/>' +
+		'</div>';
     const infowindow = new google.maps.InfoWindow({
-      content: content
+      	content: content
     })
 
     // Add even listener to markers.
     marker.addListener("click", function(e) {
-      infowindow.open(map, marker);
+      	infowindow.open(map, marker);
     })
 
     markers.push(marker);
@@ -161,18 +161,18 @@ function addLatLng(position, map) {
 
 // Delete specific marker.
 function deleteMarker(id) {
-  for (var i = 0; i < markers.length; i++) {
-    if (markers[i].id == id) {
-      // Remove the marker from the map.
-      markers[i].setMap(null);
+  	for (var i = 0; i < markers.length; i++) {
+    	if (markers[i].id == id) {
+      		// Remove the marker from the map.
+			markers[i].setMap(null);
 
-      // Remove the marker from the markers array.
-      markers.splice(i, 1);
+			// Remove the marker from the markers array.
+			markers.splice(i, 1);
     }
   }
   
-  // Refresh polyline path so that it no longer follows deleted marker.
-  poly.setPath(markers.map(marker => marker.position));
+	// Refresh polyline path so that it no longer follows deleted marker.
+	poly.setPath(markers.map(marker => marker.position));
 }
 
 // Delete all markers.
@@ -272,14 +272,14 @@ function generateTable(points, azimuths, ptDists) {
 }
 
 function addUserMGR() {
-  // Extract MGR from input box.
-  var inputBox = document.getElementById("mgr-input-box")
-  const mgr = inputBox.value;
+	// Extract MGR from input box.
+	var inputBox = document.getElementById("mgr-input-box")
+	const mgr = inputBox.value;
   
-  // Invalid MGR.
-  if (mgr.length != 8 | isNaN(mgr)) {
-    document.getElementById("user-input-result").innerHTML = "Invalid MGR";
-  } else {
+	// Invalid MGR.
+	if (mgr.length != 8 | isNaN(mgr)) {
+		document.getElementById("user-input-result").innerHTML = "Invalid MGR";
+	} else {
 
     // Valid MGR.
     document.getElementById("user-input-result").innerHTML = "Your MGR has been added!";
@@ -292,15 +292,15 @@ function addUserMGR() {
     const script = document.createElement('script');
     script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
     document.body.appendChild(script);
-  }
+}
 
-  inputBox.value = "";
+  	inputBox.value = "";
 }
 
 // JSONP callback function for adding users point on the map.
 function getUserPoint(response) {
-  var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
-  addLatLng(position, map);
+	var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
+	addLatLng(position, map);
 }
 
 // JSONP callback function that receives JSON data from espg API.
