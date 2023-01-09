@@ -278,22 +278,20 @@ function addUserMGR() {
   
 	// Invalid MGR.
 	if (mgr.length != 8 | isNaN(mgr)) {
-		document.getElementById("user-input-result").innerHTML = "Invalid MGR";
+		document.getElementById("mgr-input-result").innerHTML = "Invalid MGR.";
 	} else {
-
-    // Valid MGR.
-    document.getElementById("user-input-result").innerHTML = "Your MGR has been added!";
-    const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
-    const dstEpsg = 4326; // WGS 84
-    const lng = "".concat("6", mgr.slice(0, 4), "0");
-    const lat = "".concat("1", mgr.slice(4, 8), "0");
-  
-    // Convert MGR to coordinates used by Google Maps.
-    const script = document.createElement('script');
-    script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
-    document.body.appendChild(script);
-}
-
+		// Valid MGR.
+		document.getElementById("mgr-input-result").innerHTML = "Your MGR has been added!";
+		const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
+		const dstEpsg = 4326; // WGS 84
+		const lng = "".concat("6", mgr.slice(0, 4), "0");
+		const lat = "".concat("1", mgr.slice(4, 8), "0");
+	
+		// Convert MGR to coordinates used by Google Maps.
+		const script = document.createElement('script');
+		script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
+		document.body.appendChild(script);
+	}
   	inputBox.value = "";
 }
 
