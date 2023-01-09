@@ -134,6 +134,9 @@ function addLatLng(position, map) {
         map: map,
     })
 
+	marker.setAnimation(google.maps.Animation.BOUNCE);
+	setTimeout(() => marker.setAnimation(null), 500);
+
     // Add unique ID to each marker for easier deletion.
     marker.id = uniqueID;
     uniqueID++;
