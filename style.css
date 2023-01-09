@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-    color: #346751;
+    color: #4e7b68;
     font-family: 'Major Mono Display';
 }
 
@@ -204,4 +204,21 @@ td {
 
 tr:nth-child(even) {
     background-color: #212121;
+}
+
+footer {
+    background-color: #181818;
+    padding: 15px 0 20px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+#footer-text p {
+    font-size: 11px;
+    color: #b3b3b3;
+}
+
+#footer-text p a {
+    color: #b3b3b3;
+    text-decoration: none;
 }
