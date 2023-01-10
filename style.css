@@ -38,8 +38,7 @@ h1 {
 .dropdown {
     min-width: 15em;
     position: relative;
-    margin-bottom: 2em;
-    margin-top: 1em;
+    margin: 1em 0 2em 0;
 }
 
 .dropdown * {
@@ -140,6 +139,10 @@ h1 {
 }
 
 /* Manual MGR input */
+#mgr-input-result {
+    margin-top: 2em;
+}
+
 #mgr-input {
     display: flex;
     justify-content: center;
@@ -302,7 +305,7 @@ tr:nth-child(even) {
 footer {
     background-color: #181818;
     padding: 15px 0 20px;
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
 }
 

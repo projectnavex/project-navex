@@ -7,9 +7,8 @@ var trainingAreas = {};
 function initDropdown() {
     // Initialize dropdown menu.
     const dropdowns = document.querySelectorAll('.dropdown');
-    console.log(dropdowns);
 
-    // Loop through all dropdown element.
+    // Loop through all dropdown elements.
     dropdowns.forEach(dropdown => {
         const select = dropdown.querySelector('.select');
         const caret = dropdown.querySelector('.caret');
@@ -29,7 +28,10 @@ function initDropdown() {
         options.forEach(option => {
             // Add a click event to the option element.
             option.addEventListener('click', () => {
+
+                // Set map to selected training area.
                 map.panTo(trainingAreas[option.innerText]);
+
                 selected.innerText = option.innerText;
                 select.classList.remove('select-clicked');
                 caret.classList.remove('caret-rotate');
@@ -48,8 +50,7 @@ initDropdown();
 
 // Initialize Google Maps with Google Maps API.
 function initMap() {
-    // Set centre as Lor Asrama.
-    // styles sets map to dark mode.
+    // Set centre as Lor Asrama and styles sets map to dark mode.
     var options = {
         zoom: 15,
         center: {lat: 1.412811, lng: 103.774780},
