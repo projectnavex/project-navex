@@ -3,6 +3,12 @@ let poly;
 let uniqueID = 1;
 let markers = [];
 var trainingAreas = {};
+const SINGAPORE_BOUNDS = {
+    north: 1.466878,
+    south: 1.211860,
+    west: 103.584676,
+    east: 104.114079,
+}
 
 function initDropdown() {
     // Initialize dropdown menu.
@@ -30,7 +36,13 @@ function initDropdown() {
             option.addEventListener('click', () => {
 
                 // Set map to selected training area.
-                map.panTo(trainingAreas[option.innerText]);
+                const area = trainingAreas[option.innerText];
+                console.log(area);
+                const latlng = area[0];
+                const zoom = area[1];
+                map.setZoom(zoom);
+                map.panTo(latlng);
+                
 
                 selected.innerText = option.innerText;
                 select.classList.remove('select-clicked');
@@ -54,6 +66,10 @@ function initMap() {
     var options = {
         zoom: 15,
         center: {lat: 1.412811, lng: 103.774780},
+        restriction: {
+            latLngBounds: SINGAPORE_BOUNDS,
+            strictBounds: false,
+        },
         mapTypeControl: true,
         clickableIcons: false,
         disableDefaultUI: true,
@@ -144,10 +160,10 @@ function initMap() {
     // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
 
-    // Initialize training areas.
+    // Initialize training areas. [latlng object, zoom value].
     trainingAreas = {
-        'Lorong Asrama': new google.maps.LatLng(1.412811, 103.774780),
-        'Tekong': new google.maps.LatLng(1.414904127505336, 104.03877925542783),
+        'Lorong Asrama': [new google.maps.LatLng(1.412811, 103.774780), 15],
+        'Tekong': [new google.maps.LatLng(1.414904127505336, 104.03877925542783), 14],
     }
 
     // For dotted lines between checkpoints.
