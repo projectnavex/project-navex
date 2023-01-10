@@ -324,12 +324,12 @@ function generateTable(points, azimuths, ptDists) {
     table.appendChild(headers);
 
     // Insert data
-    for (let i=0; i<azimuths.length; i++) {
+    for (let i = 0; i < azimuths.length; i++) {
         const row = document.createElement("tr");
 
-        row.appendChild(createCell("td", i+1));
+        row.appendChild(createCell("td", i + 1));
         row.appendChild(createCell("td", Math.floor(points[i].e).toString() + ' ' +  Math.floor(points[i].n).toString()));
-        row.appendChild(createCell("td", Math.floor(points[i+1].e).toString() + ' ' +  Math.floor(points[i+1].n).toString()));
+        row.appendChild(createCell("td", Math.floor(points[i + 1].e).toString() + ' ' +  Math.floor(points[i + 1].n).toString()));
         row.appendChild(createCell("td", azimuths[i]));
         row.appendChild(createCell("td", ptDists[i]));
 
