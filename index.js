@@ -2,8 +2,51 @@ let map;
 let poly;
 let uniqueID = 1;
 let markers = [];
+var trainingAreas = {};
 
-// GOOGLE MAPS API
+function initDropdown() {
+    // Initialize dropdown menu.
+    const dropdowns = document.querySelectorAll('.dropdown');
+    console.log(dropdowns);
+
+    // Loop through all dropdown element.
+    dropdowns.forEach(dropdown => {
+        const select = dropdown.querySelector('.select');
+        const caret = dropdown.querySelector('.caret');
+        const menu = dropdown.querySelector('.menu');
+        const options = dropdown.querySelectorAll('.menu li');
+        const selected = dropdown.querySelector('.selected');
+
+        // Add a click event to the select element.
+        select.addEventListener('click', () => {
+        
+            select.classList.toggle('select-clicked');
+            caret.classList.toggle('caret-rotate');
+            menu.classList.toggle('menu-open');
+        })
+
+        // Loop through all option elements.
+        options.forEach(option => {
+            // Add a click event to the option element.
+            option.addEventListener('click', () => {
+                map.panTo(trainingAreas[option.innerText]);
+                selected.innerText = option.innerText;
+                select.classList.remove('select-clicked');
+                caret.classList.remove('caret-rotate');
+                menu.classList.remove('menu-open');
+
+                options.forEach(option => {
+                    option.classList.remove('active');
+                })
+                option.classList.add('active');
+            })
+        })
+    })
+}
+
+initDropdown();
+
+// Initialize Google Maps with Google Maps API.
 function initMap() {
     // Set centre as Lor Asrama.
     // styles sets map to dark mode.
@@ -99,6 +142,12 @@ function initMap() {
 
     // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
+
+    // Initialize training areas.
+    trainingAreas = {
+        'Lorong Asrama': new google.maps.LatLng(1.412811, 103.774780),
+        'Tekong': new google.maps.LatLng(1.414904127505336, 104.03877925542783),
+    }
 
     // For dotted lines between checkpoints.
     var lineSymbol = {
