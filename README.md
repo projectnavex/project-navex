@@ -13,11 +13,11 @@ We wanted to create a web application that allows the user to plot their navex c
 
 User can click the map to add their points, or input them manually.
 
-![Checkpoints](Images/screenshot1.png)
+![Checkpoints](images/screenshot1.png)
 
 After selecting the desired interval, the NDS is automatically generated.
 
-![NDS](Images/screenshot2.png)
+![NDS](images/screenshot2.png)
 
 ## To Do
 
