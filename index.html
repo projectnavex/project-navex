@@ -29,19 +29,13 @@
     </div>
     
     <div id="map"></div>
-    <script>
-        fetch('/.netlify/functions/map-proxy')
-        .then(response => response.text())
-        .then(data => {
-            var script = document.createElement("script");
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap&v=weekly`
-            document.appendChild(script);
-        })
-        .catch(error => {
-            console.error('Error: ', error);
-        })
-    </script>
-    
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly"
+      defer
+    ></script>
+
+
+
     <p class="instructions" id="mgr-input-result">Or manually input your points.</p>
     <div id="mgr-input">
         <div id="mgr-input-group">
