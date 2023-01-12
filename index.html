@@ -33,7 +33,7 @@
         fetch('/.netlify/functions/map-proxy', {
             method: 'POST',
             body: JSON.stringify({
-                url: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap&v=weekly`
+                url: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap&v=weekly`
             })
         })
         .then(response => response.json())
