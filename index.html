@@ -30,15 +30,12 @@
     
     <div id="map"></div>
     <script>
-        fetch('/.netlify/functions/map-proxy', {
-            method: 'POST',
-            body: JSON.stringify({
-                url: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap&v=weekly`
-            })
-        })
-        .then(response => response.json())
+        fetch('/.netlify/functions/map-proxy')
+        .then(response => response.text())
         .then(data => {
-            console.log('Success!');
+            var script = document.createElement("script");
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&callback=initMap&v=weekly`
+            document.appendChild(script);
         })
         .catch(error => {
             console.error('Error: ', error);
