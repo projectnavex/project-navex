@@ -2,7 +2,15 @@ let map;
 let poly;
 let uniqueID = 1;
 let markers = [];
-var trainingAreas = {};
+const TRAINING_AREAS = {
+    "Ama Keng": {"lat": 1.403703, "lng": 103.702338, "zoom": 15},
+    "Jalan Bahar": {"lat": 1.359666, "lng": 103.674655, "zoom": 14},
+    "Jalan Bathera": {"lat": 1.409809, "lng": 103.683807, "zoom": 14},
+    "Lorong Asrama": {"lat": 1.412811, "lng": 103.774780, "zoom": 15},
+    "Lower Mandai": {"lat": 1.348384, "lng": 103.812913, "zoom": 15},
+    "Marsling": {"lat": 1.400156, "lng": 103.771155, "zoom": 15},
+    "Tekong": {"lat": 1.412587, "lng": 104.038093, "zoom": 14}
+}
 const SINGAPORE_BOUNDS = {
     north: 1.466878,
     south: 1.211860,
@@ -36,13 +44,10 @@ function initDropdown() {
             option.addEventListener('click', () => {
 
                 // Set map to selected training area.
-                const area = trainingAreas[option.innerText];
-                console.log(area);
-                const latlng = area[0];
-                const zoom = area[1];
-                map.setZoom(zoom);
+                const area = TRAINING_AREAS[option.innerText];
+                const latlng = new google.maps.LatLng(area.lat, area.lng);
+                map.setZoom(area.zoom);
                 map.panTo(latlng);
-                
 
                 selected.innerText = option.innerText;
                 select.classList.remove('select-clicked');
@@ -159,12 +164,6 @@ function initMap() {
 
     // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
-
-    // Initialize training areas. [latlng object, zoom value].
-    trainingAreas = {
-        'Lorong Asrama': [new google.maps.LatLng(1.412811, 103.774780), 15],
-        'Tekong': [new google.maps.LatLng(1.414904127505336, 104.03877925542783), 14],
-    }
 
     // For dotted lines between checkpoints.
     var lineSymbol = {
