@@ -75,7 +75,7 @@ function initMap() {
             latLngBounds: SINGAPORE_BOUNDS,
             strictBounds: false,
         },
-        mapTypeControl: true,
+        mapTypeControl: false,
         clickableIcons: false,
         disableDefaultUI: true,
         disableDoubleClickZoom: true,

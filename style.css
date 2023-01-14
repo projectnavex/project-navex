@@ -27,6 +27,7 @@ h1 {
     text-align: center;
 }
 
+/* Dropdown Container Styles */
 .dropdown-container {
     display: flex;
     justify-content: center;
@@ -119,9 +120,18 @@ h1 {
     opacity: 1;
 }
 
+/* Google Map Container Styles */
 #map {
     height: 400px;
     width: 100%;
+}
+
+.map-buttons {
+    z-index: 1;
+    position: absolute;
+}
+
+.map-buttons button {
 }
 
 /* HTML for infowindow is defined in index.js -_- */
