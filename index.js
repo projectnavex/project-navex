@@ -256,6 +256,22 @@ function deleteMarkers() {
     markers = [];
 }
 
+function changeToRoadmap() {
+    const roadmap = document.getElementById('roadmap');
+    const satellite = document.getElementById('satellite');
+    map.setMapTypeId('roadmap');
+    satellite.classList.remove('map-selected');
+    roadmap.classList.add('map-selected');
+}
+
+function changeToSatellite() {
+    const roadmap = document.getElementById('roadmap');
+    const satellite = document.getElementById('satellite');
+    map.setMapTypeId('hybrid');
+    roadmap.classList.remove('map-selected');
+    satellite.classList.add('map-selected');
+}
+
 // Transform Google Map coordinates into the MGR that we use.
 function transformCoordinates() {
     // Set the source and target projections.

@@ -1,5 +1,4 @@
 ::selection {
-    /* Change highlight background color. */
     background: #000000;
   }
 
@@ -129,9 +128,23 @@ h1 {
 .map-buttons {
     z-index: 1;
     position: absolute;
+    margin: 0.5em;
 }
 
 .map-buttons button {
+    border: none;
+    border-radius: 1em;
+    padding: 0.2em 0.6em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.map-buttons button:hover {
+    background: #59578a;
+}
+
+.map-selected {
+    background: #59578a;
 }
 
 /* HTML for infowindow is defined in index.js -_- */
@@ -220,11 +233,12 @@ h1 {
     color: #000000;
     border: 0;
     padding: 0.60em;
-    transition: background 100ms ease-out;
+    -o-transition: background 100ms ease-out;
     -webkit-transition: background 100ms ease-out;
     -moz-transition: background 100ms ease-out;
     -ms-transition: background 100ms ease-out;
-    -o-transition: background 100ms ease-out;
+    transition: background 100ms ease-out;
+    cursor: pointer;
 }
 
 .radiogroup .radio-left {
