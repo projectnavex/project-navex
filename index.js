@@ -1,5 +1,4 @@
-let map;
-let poly;
+let map, poly, infowindow, Popup;
 let uniqueID = 1;
 let markers = [];
 const TRAINING_AREAS = {
@@ -79,10 +78,9 @@ initMapToggles();
 
 // Initialize Google Maps with Google Maps API.
 function initMap() {
-    // Set centre as Lor Asrama and styles sets map to dark mode.
     var options = {
         zoom: 15,
-        center: {lat: 1.412811, lng: 103.774780},
+        center: {lat: 1.412811, lng: 103.774780},  // Lorong Asrama
         restriction: {
             latLngBounds: SINGAPORE_BOUNDS,
             strictBounds: false,
@@ -92,7 +90,7 @@ function initMap() {
         disableDefaultUI: true,
         disableDoubleClickZoom: true,
         keyboardShortcuts: false,
-        styles: [
+        styles: [  // Dark Mode
             { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
             { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
             { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
@@ -177,14 +175,14 @@ function initMap() {
     // Initialize map.
     map = new google.maps.Map(document.getElementById('map'), options);
 
-    // For dotted lines between checkpoints.
+    // Define the options to make lines between checkpoints dotted.
     var lineSymbol = {
         path: 'M 0, -1 0, 1',
         strokeOpacity: 1,
         scale: 3
     }
 
-    // Setup Polylines.
+    // Setup Polylines object which creates lines between checkpoints..
     poly = new google.maps.Polyline({
         strokeColor: "#000000",
         strokeOpacity: 0,
@@ -195,42 +193,101 @@ function initMap() {
         }]
     });
 
-    // Initialize polylines.
+    // Initialize polylines onto maps.
     poly.setMap(map);
 
-    // Listener to add markers upon user click.
-    map.addListener("click", function(e) {
-    	addLatLng(e.latLng, map);
-    })
+    // Add markers to map upon user click.
+    map.addListener("click", e => addLatLng(e.latLng, map))
+
+    // Initialize class for infowindows for markers.
+    class Popup extends google.maps.OverlayView {
+        position;
+        containerDiv;
+        constructor(position, content) {
+            super();
+            this.position = position;
+            content.classList.add("popup-bubble");
+    
+            // This zero-height div is positioned at the bottom of the bubble.
+            const bubbleAnchor = document.createElement("div");
+        
+            bubbleAnchor.classList.add("popup-bubble-anchor");
+            bubbleAnchor.appendChild(content);
+            // This zero-height div is positioned at the bottom of the tip.
+            this.containerDiv = document.createElement("div");
+            this.containerDiv.classList.add("popup-container");
+            this.containerDiv.appendChild(bubbleAnchor);
+            // Optionally stop clicks, etc., from bubbling up to the map.
+            Popup.preventMapHitsAndGesturesFrom(this.containerDiv);
+        }
+        /** Called when the popup is added to the map. */
+        onAdd() {
+            this.getPanes().floatPane.appendChild(this.containerDiv);
+        }
+        /** Called when the popup is removed from the map. */
+        onRemove() {
+            if (this.containerDiv.parentElement) {
+                this.containerDiv.parentElement.removeChild(this.containerDiv);
+            }
+        }
+        /** Called each frame when the popup needs to draw itself. */
+        draw() {
+            const divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
+            // Hide the popup when it is far out of view.
+            const display =
+                Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000
+                ? "block"
+                : "none";
+        
+            if (display === "block") {
+                this.containerDiv.style.left = divPosition.x + "px";
+                this.containerDiv.style.top = divPosition.y + "px";
+            }
+        
+            if (this.containerDiv.style.display !== display) {
+                this.containerDiv.style.display = display;
+            }
+        }
+    }
+    infowindow = new Popup(new google.maps.LatLng(1.412811, 103.774780), document.getElementById("content"));
 }
 
 function addLatLng(position, map) {
     // Add marker to map.
     const marker = new google.maps.Marker({
         position: position,
+        draggable: true,
         map: map,
+        animation: google.maps.Animation.DROP
     })
-
-	marker.setAnimation(google.maps.Animation.DROP);
 
     // Add unique ID to each marker for easier deletion.
     marker.id = uniqueID;
     uniqueID++;
 
     // Initialize infowindow for each marker.
+    /*
     const content = 
 		'<div id="infowindow">' + 
 		'<input type="button" value="Delete" onclick="deleteMarker('+ marker.id +')"/>' +
 		'</div>';
-    const infowindow = new google.maps.InfoWindow({
-      	content: content
-    })
+    const infowindow = new google.maps.InfoWindow({content: content}) */
 
     // Add even listener to markers.
-    marker.addListener("click", function(e) {
-      	infowindow.open(map, marker);
+    marker.addListener("click", () => {
+        const infowindowPos = new google.map.LatLng(marker.anchorPoint.y, marker.anchorPoint.y);
+        infowindow.position = infowindowPos;
+        infowindow.setMap(map);
     })
 
+    /*
+    marker.addListener("dragend", () => {
+        deleteMarker(marker.id);
+        addLatLng(marker.position, map);
+    })
+    */
+
+    // Update markers array.
     markers.push(marker);
 
     // MVC-array that stores coordinates.
