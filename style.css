@@ -19,7 +19,7 @@ h1 {
     font-size: 16px;
     opacity: 0.7;
     text-align: center;
-    margin: 10px;
+    margin: 25px 10px 10px 0;
 }
 
 .center-text {
@@ -192,10 +192,6 @@ h1 {
 }
 
 /* Manual MGR input */
-#mgr-input-result {
-    margin-top: 1.5em;
-}
-
 #mgr-input {
     display: flex;
     justify-content: center;
@@ -212,7 +208,7 @@ h1 {
 
 #mgr-input-box {
     font-family: 'Space Mono';
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
     border-radius: 75px;
     border: 2px solid #ffffff;
