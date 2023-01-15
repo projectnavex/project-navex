@@ -119,35 +119,65 @@ h1 {
     opacity: 1;
 }
 
-/* Google Map Container Styles */
+/* Google Map Styles */
 #map {
     height: 400px;
     width: 100%;
 }
 
+/* Buttons that toggle map type */
 .map-buttons {
-    z-index: 1;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0.5em 1em;
     position: absolute;
-    margin: 0.5em;
+    z-index: 1;
 }
 
-.map-buttons button {
-    border: none;
-    border-radius: 1em;
-    padding: 0.2em 0.6em;
+.map-toggle {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-toggle input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+.map-toggle label {
+    font-size: 10px;
+    color: #000;
+    width: 50%;
+    text-align: center;
+    background: #fff;
+    border: 0;
+    padding: 0.6em;
+    -o-transition: background 100ms ease-out;
+    -webkit-transition: background 100ms ease-out;
+    -moz-transition: background 100ms ease-out;
+    -ms-transition: background 100ms ease-out;
+    transition: background 100ms ease-out;
     cursor: pointer;
-    transition: background 0.2s;
 }
 
-.map-buttons button:hover {
-    background: #59578a;
+.map-toggle .roadmap {
+    border-radius: 1em 0 0 1em;
 }
 
-.map-selected {
-    background: #59578a;
+.map-toggle .hybrid {
+    border-radius: 0 1em 1em 0;
 }
 
-/* HTML for infowindow is defined in index.js -_- */
+.map-toggle input:checked + label {
+    background-color: #393f4d;
+    color: #fff;
+}
+
+/* CSS for infowindows when markers are clicked. */
 #infowindow input {
     margin: 2px;
     background-color: #C84B31;
@@ -204,7 +234,7 @@ h1 {
     width: 80px;
 }
 
-/* Intervals pillbox */
+/* Pillbox for 50m or 100m */
 .intervals {
     display: flex;
     justify-content: center;
@@ -217,7 +247,7 @@ h1 {
     justify-content: center;
     align-items: center;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 .radiogroup input[type="radio"] {
@@ -254,7 +284,7 @@ h1 {
     color: #ffffff;
 }
 
-/* Follow up action */
+/* Follow up action for running / clearing points. */
 .follow-up-action {
     display: flex;
     justify-content: center;

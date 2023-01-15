@@ -34,9 +34,14 @@
     </div>
     
     <div class="map-buttons">
-        <button id="roadmap" class="map-selected" onclick="changeToRoadmap()"><img src="./images/roadmap.png" alt="roadmap" width="25px" height="25px"></button>
-        <button id="satellite" onclick="changeToSatellite()"><img src="./images/satellite.png" alt="satellite" width="25px" height="25px"></button>
+        <div class="map-toggle">
+            <input type="radio" name="map-radio-group" id="roadmap" value="roadmap" checked>
+            <label for="roadmap" class="roadmap">Roadmap</label>
+            <input type="radio" name="map-radio-group" id="hybrid" value="hybrid">
+            <label for="hybrid" class="hybrid">Tactical</label>
+        </div>
     </div>
+
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
 
@@ -53,7 +58,6 @@
         <div class="radiogroup">
             <input type="radio" name="radio-group" id="day" value="day" checked>
             <label class="radio-left" for="day">Day (100m)</label>
-    
             <input type="radio" name="radio-group" id="night" value="night">
             <label class="radio-right" for="night">Night (50m)</label>
         </div>

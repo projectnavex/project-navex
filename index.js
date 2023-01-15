@@ -65,6 +65,18 @@ function initDropdown() {
 
 initDropdown();
 
+// Initialize buttons that toggle map types.
+function initMapToggles() {
+    const mapButtons = document.querySelectorAll('.map-toggle input[type="radio"]');
+    mapButtons.forEach(button => {
+        button.addEventListener("change", () => {
+            map.setMapTypeId(button.id);
+        })
+    })
+}
+
+initMapToggles();
+
 // Initialize Google Maps with Google Maps API.
 function initMap() {
     // Set centre as Lor Asrama and styles sets map to dark mode.
@@ -254,22 +266,6 @@ function deleteMarkers() {
 
     // Clear markers.
     markers = [];
-}
-
-function changeToRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    const satellite = document.getElementById('satellite');
-    map.setMapTypeId('roadmap');
-    satellite.classList.remove('map-selected');
-    roadmap.classList.add('map-selected');
-}
-
-function changeToSatellite() {
-    const roadmap = document.getElementById('roadmap');
-    const satellite = document.getElementById('satellite');
-    map.setMapTypeId('hybrid');
-    roadmap.classList.remove('map-selected');
-    satellite.classList.add('map-selected');
 }
 
 // Transform Google Map coordinates into the MGR that we use.
