@@ -21,6 +21,5 @@ After selecting the desired interval, the NDS is automatically generated.
 
 ## To Do
 
-* Custom map control buttons.
 * Custom infowindow for checkpoints.
 * Highlight chosen checkpoints in NDS.
