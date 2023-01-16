@@ -190,6 +190,11 @@ inline css
     padding: 0 !important;
 }
 
+/* If I don't do this it looks weird in some browsers */
+.gm-style-iw-d {
+    overflow: visible !important;
+}
+
 /* CSS for close button. */
 .gm-ui-hover-effect {
     position: relative !important;
