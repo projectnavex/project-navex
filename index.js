@@ -199,7 +199,7 @@ function initMap() {
     // Initialize infowindow for each marker.
     const content = 
 		'<div id="infowindow">' + 
-		'<input type="button" value="Delete" onclick="deleteMarker()"/>' +
+        '<button onclick="deleteMarker()">Delete</button>' +
 		'</div>';
     infowindow = new google.maps.InfoWindow({content: content})
 
