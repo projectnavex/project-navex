@@ -200,31 +200,30 @@ inline css
     position: relative !important;
     top: 2px !important;
     right: 2px !important;
-    border-radius: 0 5px 5px 0 !important;
+    border-radius: 0 6px 6px 0 !important;
     height: 25px !important;
     width: 25px !important;
-    background-color: #3e7a60 !important;
+    background-color: #71a18d !important;
     opacity: 1 !important;
 }
 
 /* 'X' symbol on the close button */
 .gm-ui-hover-effect span {
-    margin: 6px !important;
+    margin: 5px !important;
 }
 
 /* Delete button on infowindow */
 #infowindow input {
-    margin: 2px;
     background-color: #C84B31;
-    border-radius: 5px 0 0 5px;
-    border-style: none;
     color: #FFFFFF;
-    cursor: pointer;
+    border-radius: 6px 0 0 6px;
+    border-style: none;
     font-family: 'Space Mono';
     font-size: 10px;
-    padding: 5px;
-    outline: none;
     height: 25px;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
 }
 
 /* Manual MGR input */
