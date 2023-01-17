@@ -213,7 +213,6 @@ function addLatLng(position, map) {
         position: position,
         draggable: true,
         map: map,
-        animation: google.maps.Animation.DROP
     })
 
     // Add unique ID to each marker for easier deletion.

@@ -21,5 +21,4 @@ After selecting the desired interval, the NDS is automatically generated.
 
 ## To Do
 
-* Draggable markers.
 * Highlight chosen checkpoints in NDS.
