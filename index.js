@@ -211,7 +211,7 @@ function addLatLng(position, map) {
     // Add marker to map.
     const marker = new google.maps.Marker({
         position: position,
-        draggable: false,
+        draggable: true,
         map: map,
         animation: google.maps.Animation.DROP
     })
@@ -226,12 +226,8 @@ function addLatLng(position, map) {
         activeMarker = marker.id;
     })
 
-    /*
-    marker.addListener("dragend", () => {
-        deleteMarker(marker.id);
-        addLatLng(marker.position, map);
-    })
-    */
+    // Update polylines when marker is dragged.
+    marker.addListener("dragend", () => poly.setPath(markers.map(marker => marker.position)));
 
     // Update markers array.
     markers.push(marker);
