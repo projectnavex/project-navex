@@ -217,6 +217,7 @@ inline css
     background-color: #C84B31;
     color: #FFFFFF;
     border-radius: 6px 0 0 6px;
+    -webkit-appearance: none;
     -webkit-border-radius: 6px 0 0 6px;
     border-style: none;
     font-family: 'Space Mono';
