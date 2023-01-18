@@ -226,7 +226,7 @@ function addLatLng(position, map) {
     })
 
     // Update polylines when marker is dragged.
-    marker.addListener("dragend", () => poly.setPath(markers.map(marker => marker.position)));
+    marker.addListener("drag", () => poly.setPath(markers.map(marker => marker.position)));
 
     // Update markers array.
     markers.push(marker);
@@ -266,6 +266,36 @@ function deleteMarkers() {
     markers = [];
 }
 
+function addUserMGR() {
+	// Extract MGR from input box.
+	var inputBox = document.getElementById("mgr-input-box")
+	const mgr = inputBox.value;
+  
+	// Invalid MGR.
+	if (mgr.length != 8 | isNaN(mgr)) {
+		document.getElementById("mgr-input-result").innerHTML = "Invalid MGR.";
+	} else {
+		// Valid MGR.
+		document.getElementById("mgr-input-result").innerHTML = "Your MGR has been added!";
+		const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
+		const dstEpsg = 4326; // WGS 84
+		const lng = "".concat("6", mgr.slice(0, 4), "0");
+		const lat = "".concat("1", mgr.slice(4, 8), "0");
+	
+		// Convert MGR to coordinates used by Google Maps.
+		const script = document.createElement('script');
+		script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
+		document.body.appendChild(script);
+	}
+  	inputBox.value = "";
+}
+
+// JSONP callback function for adding users point on the map.
+function getUserPoint(response) {
+	var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
+	addLatLng(position, map);
+}
+
 // Transform Google Map coordinates into the MGR that we use.
 function transformCoordinates() {
     // Set the source and target projections.
@@ -285,6 +315,84 @@ function transformCoordinates() {
     const script = document.createElement('script');
     script.src = `https://epsg.io/trans?data=${data.slice(0, -1)}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getNDS`; // Callback function getNDS
     document.body.appendChild(script);
+}
+
+// JSONP callback function that receives JSON data from espg API.
+function getNDS(response) {
+    // Store transformed MGRS.
+    const mgrs = [];
+
+    // Loop through JSON data and add data to mgrs array.
+    response.forEach(function(point) {
+        mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
+    })
+    
+    let interval;
+
+    // Check for interval radio button.
+    if (document.getElementById("day").checked) {
+        // Day
+        interval = 100;
+    } else {
+        // Night
+        interval = 50;
+    }
+
+    const points = [mgrs[0]];
+    const ptDists = [];
+    const azimuths = [];
+
+    // orginalMGR[i] is true if the ith MGR is in the original MGR list.
+    // This array is used for highlighting the original MGRS in the NDS table.
+    const originalMGR = [true];
+
+    // Format MGRS data.
+    for (let i = 1; i < mgrs.length; i++) {
+        // Previous point.
+        let easting = mgrs[i - 1].e;
+        let northing = mgrs[i - 1].n;
+
+        // Calculate distance & azimuth between 2 points
+        const eDiff = mgrs[i].e - easting;
+        const nDiff = mgrs[i].n - northing;
+        const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
+        const azimuth = calcAzimuth(eDiff, nDiff);
+
+        // Derive Easting & Northing increments for subpoints
+        const eIncrement = eDiff / dist;
+        const nIncrement = nDiff / dist;
+
+        // Creating subpoints
+        for (let j = 0; j < Math.floor(dist); j++) {
+            easting += eIncrement;
+            northing += nIncrement;
+
+            points.push({e: easting, n: northing});
+            ptDists.push(interval);
+            azimuths.push(azimuth);
+
+            originalMGR.push(false);
+        }
+
+        // If distance < interval or if distance not perfectly divisible by interval
+        const remainder = dist - Math.floor(dist);
+        easting += remainder * eIncrement;
+        northing += remainder * nIncrement;
+
+        points.push({e: easting, n: northing});
+        ptDists.push(Math.floor(remainder * interval));
+        azimuths.push(azimuth);
+
+        originalMGR.push(true);
+    }
+
+    console.log(originalMGR);
+    console.log(azimuths);
+    console.log(points);
+
+    // Make the last entry highlighted as well.
+    originalMGR[azimuths.length - 1] = true;
+    new generateTable(points, azimuths, ptDists, originalMGR);
 }
 
 function calcAzimuth(eDiff, nDiff) {
@@ -317,7 +425,7 @@ function createCell(type, text) {
     return data;
 }
 
-function generateTable(points, azimuths, ptDists) {
+function generateTable(points, azimuths, ptDists, originalMGR) {
     const tableDiv = document.getElementById("table-div");
     const table = document.createElement("table");
 
@@ -335,109 +443,22 @@ function generateTable(points, azimuths, ptDists) {
     // Insert data
     for (let i = 0; i < azimuths.length; i++) {
         const row = document.createElement("tr");
+        const startMGR = Math.floor(points[i].e).toString() + ' ' +  Math.floor(points[i].n).toString();
+        const endMGR = Math.floor(points[i + 1].e).toString() + ' ' +  Math.floor(points[i + 1].n).toString();
 
         row.appendChild(createCell("td", i + 1));
-        row.appendChild(createCell("td", Math.floor(points[i].e).toString() + ' ' +  Math.floor(points[i].n).toString()));
-        row.appendChild(createCell("td", Math.floor(points[i + 1].e).toString() + ' ' +  Math.floor(points[i + 1].n).toString()));
+        row.appendChild(createCell("td", startMGR));
+        row.appendChild(createCell("td", endMGR));
         row.appendChild(createCell("td", azimuths[i]));
         row.appendChild(createCell("td", ptDists[i]));
 
         table.appendChild(row);
+
+        // If current row contains an orignal MGR the user entered, highlight it.
+        if (originalMGR[i] === true) {
+            row.setAttribute('style', 'color: #FAEBAF');
+        }
     }
 
     tableDiv.replaceChildren(table);
-}
-
-function addUserMGR() {
-	// Extract MGR from input box.
-	var inputBox = document.getElementById("mgr-input-box")
-	const mgr = inputBox.value;
-  
-	// Invalid MGR.
-	if (mgr.length != 8 | isNaN(mgr)) {
-		document.getElementById("mgr-input-result").innerHTML = "Invalid MGR.";
-	} else {
-		// Valid MGR.
-		document.getElementById("mgr-input-result").innerHTML = "Your MGR has been added!";
-		const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
-		const dstEpsg = 4326; // WGS 84
-		const lng = "".concat("6", mgr.slice(0, 4), "0");
-		const lat = "".concat("1", mgr.slice(4, 8), "0");
-	
-		// Convert MGR to coordinates used by Google Maps.
-		const script = document.createElement('script');
-		script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
-		document.body.appendChild(script);
-	}
-  	inputBox.value = "";
-}
-
-// JSONP callback function for adding users point on the map.
-function getUserPoint(response) {
-	var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
-	addLatLng(position, map);
-}
-
-// JSONP callback function that receives JSON data from espg API.
-function getNDS(response) {
-    // Store transformed MGRS.
-    const mgrs = [];
-
-    // Loop through JSON data and add data to mgrs array.
-    response.forEach(function(point) {
-        mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
-    })
-    
-    let interval;
-
-    // Check for interval radio button.
-    if (document.getElementById("day").checked) {
-        // Day
-        interval = 100;
-    } else {
-        // Night
-        interval = 50;
-    }
-
-    const points = [mgrs[0]];
-    const ptDists = [];
-    const azimuths = [];
-
-    // Format MGRS data.
-    for (let i = 1; i < mgrs.length; i++) {
-        // Previous point.
-        let easting = mgrs[i - 1].e;
-        let northing = mgrs[i - 1].n;
-
-        // Calculate distance & azimuth between 2 points
-        const eDiff = mgrs[i].e - easting;
-        const nDiff = mgrs[i].n - northing;
-        const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
-        const azimuth = calcAzimuth(eDiff, nDiff);
-
-        // Derive Easting & Northing increments for subpoints
-        const eIncrement = eDiff / dist;
-        const nIncrement = nDiff / dist;
-
-        // Creating subpoints
-        for (let j = 0; j < Math.floor(dist); j++) {
-            easting += eIncrement;
-            northing += nIncrement;
-
-            points.push({e: easting, n: northing});
-            ptDists.push(interval);
-            azimuths.push(azimuth);
-        }
-
-        // If distance < interval or if distance not perfectly divisible by interval
-        const remainder = dist - Math.floor(dist);
-        easting += remainder * eIncrement;
-        northing += remainder * nIncrement;
-
-        points.push({e: easting, n: northing});
-        ptDists.push(Math.floor(remainder * interval));
-        azimuths.push(azimuth);
-    }
-
-    new generateTable(points, azimuths, ptDists);
 }
