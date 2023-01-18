@@ -226,7 +226,7 @@ function addLatLng(position, map) {
     })
 
     // Update polylines when marker is dragged.
-    marker.addListener("drag", () => poly.setPath(markers.map(marker => marker.position)));
+    marker.addListener("dragend", () => poly.setPath(markers.map(marker => marker.position)));
 
     // Update markers array.
     markers.push(marker);
