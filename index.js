@@ -234,6 +234,11 @@ function addLatLng(position, map) {
     // MVC-array that stores coordinates.
     const path = poly.getPath();
     path.push(position);
+
+    // Check if point is on water every 50m (TESTING)
+    const pxCoord = latLngToPx(position.lat(), position.lng(), 1.412811, 103.774780, 15);
+    const rgb = isWater(pxCoord[0], pxCoord[1]);
+    console.log(rgb);
 }
 
 // Delete specific marker.
@@ -461,4 +466,40 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
     }
 
     tableDiv.replaceChildren(table);
+}
+
+// Generate invisible canvas to show water
+window.onload = function() {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d", {willReadFrequently: true});
+    var img = document.getElementById("water-features");
+
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+}
+
+// Point (LatLng) to pixel coordinate on Google Static Map
+function latLngToPx(lat, lng, clat, clng, zoom) {
+    const degreesPerMeterAtEquator = 360 / (2 * Math.PI * 6378137)
+    const metresAtEquatorPerTilePx = 156543.03392 / (2 ** zoom)
+
+    const latIncrementPerTilePx = degreesPerMeterAtEquator * Math.cos(lat * Math.PI / 180) * metresAtEquatorPerTilePx
+    const lngIncrementPerTilePx = degreesPerMeterAtEquator * metresAtEquatorPerTilePx
+
+    const diffLat = clat - lat;
+    const diffLng = clng - lng;
+
+    const xPx = 320 - diffLng / lngIncrementPerTilePx;
+    const yPx = 320 + diffLat / latIncrementPerTilePx;
+
+    return [xPx, yPx];
+}
+
+// Check if point is water using on canvas
+function isWater(xPx, yPx) {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d", {willReadFrequently: true});
+    var data = ctx.getImageData(xPx, yPx, 1, 1).data;
+    var rgb = [data[0], data[1], data[2]];
+
+    return rgb;
 }
