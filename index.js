@@ -234,11 +234,6 @@ function addLatLng(position, map) {
     // MVC-array that stores coordinates.
     const path = poly.getPath();
     path.push(position);
-
-    // Check if point is on water every 50m (TESTING)
-    const pxCoord = latLngToPx(position.lat(), position.lng(), 1.412811, 103.774780, 15);
-    const rgb = isWater(pxCoord[0], pxCoord[1]);
-    console.log(rgb);
 }
 
 // Delete specific marker.
@@ -332,9 +327,9 @@ function getNDS(response) {
         mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
     })
     
+    // Check for interval radio button.
     let interval;
 
-    // Check for interval radio button.
     if (document.getElementById("day").checked) {
         // Day
         interval = 100;
@@ -346,6 +341,7 @@ function getNDS(response) {
     const points = [mgrs[0]];
     const ptDists = [];
     const azimuths = [];
+    const path = poly.getPath();
 
     // orginalMGR[i] is true if the ith MGR is in the original MGR list.
     // This array is used for highlighting the original MGRS in the NDS table.
@@ -357,18 +353,39 @@ function getNDS(response) {
         let easting = mgrs[i - 1].e;
         let northing = mgrs[i - 1].n;
 
+        let lat = path.getAt(i-1).lat();
+        let lng = path.getAt(i-1).lng();
+
         // Calculate distance & azimuth between 2 points
         const eDiff = mgrs[i].e - easting;
         const nDiff = mgrs[i].n - northing;
         const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
         const azimuth = calcAzimuth(eDiff, nDiff);
 
+        const latDiff = path.getAt(i).lat() - lat;
+        const lngDiff = path.getAt(i).lng() - lng;
+
         // Derive Easting & Northing increments for subpoints
         const eIncrement = eDiff / dist;
         const nIncrement = nDiff / dist;
 
+        const latIncrement = latDiff / dist;
+        const lngIncrement = lngDiff / dist;
+
         // Creating subpoints
         for (let j = 0; j < Math.floor(dist); j++) {
+            // Check if subpoint is on water
+            const pxCoordinates = latLngToPx(lat + latIncrement, lng + lngIncrement, 1.412811, 103.774780, 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+            if (isWater(pxCoordinates[0], pxCoordinates[1])) {
+                // Shift to path finding
+                console.log('w', easting+eIncrement, northing+nIncrement);
+            } else {
+                console.log('n', easting+eIncrement, northing+nIncrement);
+            }
+            // ### SHIFT THIS PART TO ELSE AFTER IMPLEMENTING PATH FINDING ###
+            lat += latIncrement;
+            lng += lngIncrement;
+
             easting += eIncrement;
             northing += nIncrement;
 
@@ -381,6 +398,16 @@ function getNDS(response) {
 
         // If distance < interval or if distance not perfectly divisible by interval
         const remainder = dist - Math.floor(dist);
+
+        // Check if point is on water
+        const pxCoordinates = latLngToPx(lat + remainder * latIncrement, lng + remainder * lngIncrement, 1.412811, 103.774780, 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+        if (isWater(pxCoordinates[0], pxCoordinates[1])) {
+            // Implement path finding
+            console.log('w', easting+remainder*eIncrement, northing+remainder*nIncrement);
+        } else {
+            console.log('n', easting+remainder*eIncrement, northing+remainder*nIncrement);
+        }
+        // ### SHIFT THIS PART TO ELSE AFTER IMPLEMENTING PATH FINDING ###
         easting += remainder * eIncrement;
         northing += remainder * nIncrement;
 
@@ -390,10 +417,6 @@ function getNDS(response) {
 
         originalMGR.push(true);
     }
-
-    console.log(originalMGR);
-    console.log(azimuths);
-    console.log(points);
 
     // Make the last entry highlighted as well.
     originalMGR[azimuths.length - 1] = true;
@@ -468,14 +491,15 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
     tableDiv.replaceChildren(table);
 }
 
-// Generate invisible canvas to show water
-window.onload = function() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d", {willReadFrequently: true});
-    var img = document.getElementById("water-features");
+// Generate invisible canvas to show water areas
+const img = new Image();
+img.crossOrigin = "anonymous";
+img.src = "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center=1.412811,103.774780&scale=1&zoom=15&size=640x640&style=feature:administrative|visibility:off&style=feature:landscape|visibility:off&style=feature:poi|visibility:off&style=feature:road|visibility:off&style=feature:transit|visibility:off&style=feature:water|color:0x00ff00&style=element:labels|visibility:off&key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ";
 
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-}
+img.onload = function() {
+    const canvas = document.getElementById("water-canvas");
+    canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
+};
 
 // Point (LatLng) to pixel coordinate on Google Static Map
 function latLngToPx(lat, lng, clat, clng, zoom) {
@@ -496,10 +520,13 @@ function latLngToPx(lat, lng, clat, clng, zoom) {
 
 // Check if point is water using on canvas
 function isWater(xPx, yPx) {
-    var c = document.getElementById("myCanvas");
+    var c = document.getElementById("water-canvas");
     var ctx = c.getContext("2d", {willReadFrequently: true});
     var data = ctx.getImageData(xPx, yPx, 1, 1).data;
-    var rgb = [data[0], data[1], data[2]];
 
-    return rgb;
+    if (data[1] === 255) {
+        return true;
+    } 
+
+    return false;
 }

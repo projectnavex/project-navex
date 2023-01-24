@@ -403,3 +403,8 @@ footer {
     color: #b3b3b3;
     text-decoration: none;
 }
+
+/* Invisible canvas */
+#water-canvas {
+    display: none;
+}
