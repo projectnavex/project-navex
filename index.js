@@ -338,6 +338,16 @@ function getNDS(response) {
         interval = 50;
     }
 
+    // Create canvas of Google Static Map with current center
+    const center = map.getCenter();
+    createCanvas(center);
+
+    // Initialize grid for pathfinding
+    const canvas = document.getElementById("water-canvas");
+    const imgData = canvas.getContext("2d", {willReadFrequently: true}).getImageData(0, 0, 640, 640).data;
+    const grid = initGrid(imgData);
+    console.log(grid);
+
     const points = [mgrs[0]];
     const ptDists = [];
     const azimuths = [];
@@ -375,8 +385,8 @@ function getNDS(response) {
         // Creating subpoints
         for (let j = 0; j < Math.floor(dist); j++) {
             // Check if subpoint is on water
-            const pxCoordinates = latLngToPx(lat + latIncrement, lng + lngIncrement, 1.412811, 103.774780, 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
-            if (isWater(pxCoordinates.x, pxCoordinates.y)) {
+            const pxCoordinates = latLngToPx(lat + latIncrement, lng + lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+            if (isWater(pxCoordinates)) {
                 // Shift to path finding
                 console.log('w', easting+eIncrement, northing+nIncrement);
             } else {
@@ -400,8 +410,8 @@ function getNDS(response) {
         const remainder = dist - Math.floor(dist);
 
         // Check if point is on water
-        const pxCoordinates = latLngToPx(lat + remainder * latIncrement, lng + remainder * lngIncrement, 1.412811, 103.774780, 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
-        if (isWater(pxCoordinates.x, pxCoordinates.y)) {
+        const pxCoordinates = latLngToPx(lat + remainder * latIncrement, lng + remainder * lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+        if (isWater(pxCoordinates)) {
             // Implement path finding
             console.log('w', easting+remainder*eIncrement, northing+remainder*nIncrement);
         } else {
@@ -491,15 +501,50 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
     tableDiv.replaceChildren(table);
 }
 
-// Generate invisible canvas to show water areas
-const img = new Image();
-img.crossOrigin = "anonymous";
-img.src = "https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center=1.412811,103.774780&scale=1&zoom=15&size=640x640&style=feature:administrative|visibility:off&style=feature:landscape|visibility:off&style=feature:poi|visibility:off&style=feature:road|visibility:off&style=feature:transit|visibility:off&style=feature:water|color:0x00ff00&style=element:labels|visibility:off&key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ";
+// Create invisible canvas to show water areas
+function createCanvas(center) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = `https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center=${center.lat()},${center.lng()}&scale=1&zoom=15&size=640x640&style=feature:administrative|visibility:off&style=feature:landscape|visibility:off&style=feature:poi|visibility:off&style=feature:road|visibility:off&style=feature:transit|visibility:off&style=feature:water|color:0x00ff00&style=element:labels|visibility:off&key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ`;
 
-img.onload = function() {
-    const canvas = document.getElementById("water-canvas");
-    canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
-};
+    img.onload = function() {
+        const canvas = document.getElementById("water-canvas");
+        canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
+    };
+}
+
+// Initialize 2D array Grid
+function initGrid(imgData) {
+    var grid = [];
+    var tr = 0;
+    var fa = 0;
+
+    const height = 640;
+    const width = 640;
+
+    for (let x=0; x<width; x++) {
+        for (let y=0; y<height; y++) {
+            var point = {
+                g: NaN,
+                h: NaN
+            };
+
+            // Check if corresponding pixel is water
+            if (imgData[(y * width + x) * 4 + 1] === 255) {
+                point.water = true;
+                tr++;
+            } else {
+                point.water = false;
+                fa++;
+            }
+
+            grid.push(point);
+            console.log(tr, fa);
+        }
+    }
+
+    return grid;
+}
 
 // Point (LatLng) to pixel coordinate on Google Static Map
 function latLngToPx(lat, lng, clat, clng, zoom) {
@@ -512,9 +557,9 @@ function latLngToPx(lat, lng, clat, clng, zoom) {
     const diffLat = clat - lat;
     const diffLng = clng - lng;
 
-    const coordinates = {
-        x: 320 - diffLng / lngIncrementPerTilePx,
-        y: 320 + diffLat / latIncrementPerTilePx
+    const pxCoordinates = {
+        x: Math.round(320 - diffLng / lngIncrementPerTilePx),
+        y: Math.round(320 + diffLat / latIncrementPerTilePx)
     };
 
     return pxCoordinates;
@@ -534,34 +579,10 @@ function isWater(pxCoordinates) {
 }
 
 // Pathfinding to traverse around water obstacle (A* algorithm)
-function findPath(startPx, endPx, grid) {
+/*function findPath(startPx, endPx, grid) {
 
-}
+}*/
 
-// Initialize and format grid for pathfinding
-function initGrid(imgData) {
-    var grid = [];
-
-    const height = 640;
-    const width = 640;
-
-    // Fill 2D array with point objects
-    for (let x=0; x<width; x++) {
-        for (let y=0; y<height; y++) {
-            var point = {
-                g: NaN,
-                h: NaN
-            };
-
-            // Check if corresponding pixel is water
-            if (imgData[(y*640 + x) * 4 + 1] === 255) {
-                point.water = true;
-            } else {
-                point.water = false;
-            }
-        }
-    }
-}
 
 /*
 var astar = {
