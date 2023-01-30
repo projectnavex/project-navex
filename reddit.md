@@ -22,7 +22,7 @@ Do keep in mind that currently, the tool only creates straight lines between che
 ---
 **Links:**
 
-Website: projectnavex.com
+Website: https://projectnavex.com
 
 GitHub: https://github.com/projectnavex/project-navex
 
