@@ -503,52 +503,6 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
     tableDiv.replaceChildren(table);
 }
 
-// Create invisible canvas to show water areas
-function createCanvas(center) {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = `https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center=${center.lat()},${center.lng()}&scale=1&zoom=15&size=640x640&style=feature:administrative|visibility:off&style=feature:landscape|visibility:off&style=feature:poi|visibility:off&style=feature:road|visibility:off&style=feature:transit|visibility:off&style=feature:water|color:0x00ff00&style=element:labels|visibility:off&key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ`;
-
-    img.onload = function() {
-        const canvas = document.getElementById("water-canvas");
-        canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
-    };
-}
-
-// Initialize 2D array Grid
-function initGrid(img) {
-    // Draw img onto canvas    
-    const canvas = document.getElementById("water-canvas");
-    canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
-
-    // Get array of RGBA values
-    const imgData = canvas.getContext("2d", {willReadFrequently: true}).getImageData(0, 0, 640, 640).data;
-    
-    var grid = [];
-
-    const height = 640;
-    const width = 640;
-
-    for (let x=0; x<width; x++) {
-        for (let y=0; y<height; y++) {
-            var point = {
-                g: NaN,
-                h: NaN
-            };
-
-            // Check if corresponding pixel is water
-            if (imgData[(y * width + x) * 4 + 1] === 255) {
-                point.water = true;
-            } else {
-                point.water = false;
-            }
-
-            grid.push(point);
-        }
-    }
-    return grid;
-}
-
 // Point (LatLng) to pixel coordinate on Google Static Map
 function latLngToPx(lat, lng, clat, clng, zoom) {
     const degreesPerMeterAtEquator = 360 / (2 * Math.PI * 6378137)
@@ -586,13 +540,66 @@ function isWater(pxCoordinates, img) {
     return false;
 }
 
+// Initialize 2D array Grid
+function initGrid(img) {
+    // Draw img onto canvas    
+    const canvas = document.getElementById("water-canvas");
+    canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
+
+    // Get array of RGBA values
+    const imgData = canvas.getContext("2d", {willReadFrequently: true}).getImageData(0, 0, 640, 640).data;
+    
+    var grid = [];
+
+    const height = 640;
+    const width = 640;
+
+    for (let x=0; x<width; x++) {
+        for (let y=0; y<height; y++) {
+            var point = {
+                x: x,
+                y: y,
+                f: NaN, // Total cost (g-cost + h-cost)
+                g: NaN, // Cost of getting to current waypoint
+                h: NaN, // Estimated cost to get to destination
+                parent: null
+            };
+
+            // Check if corresponding pixel is water
+            if (imgData[(y * width + x) * 4 + 1] === 255) {
+                point.water = true;
+            } else {
+                point.water = false;
+            }
+
+            grid.push(point);
+        }
+    }
+    return grid;
+}
+
 // Pathfinding to traverse around water obstacle (A* algorithm)
 /*function findPath(startPx, endPx, grid) {
+    var openList = []; // Available steps
+    var closedList = []; 
+    openList.push(grid[startPx.x][startPx.y]);
 
-}*/
+    while (openList.length > 0) {
+        // Find lowest f-cost
+        var lowestFIndex = 0;
+
+        for (var i=1; i<openList.length; i++) {
+            if (openList[i].f < openList[lowestFIndex].f) {
+                lowestFIndex = i;
+            }
+        }
+
+        var lowestF = openList[lowestFIndex];
+    }
+}
 
 
-/*
+
 var astar = {
   init: function(grid) {
     for(var x = ; x < grid.length; x++) {
