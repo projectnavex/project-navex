@@ -22,13 +22,13 @@ Do keep in mind that currently, the tool only creates straight lines between che
 ---
 **Links:**
 
-Website: https://projectnavex.com
+Website: [projectnavex.com](https://projectnavex.com)
 
-GitHub: https://github.com/projectnavex/project-navex
+GitHub: [https://github.com/projectnavex/project-navex](https://github.com/projectnavex/project-navex)
 
 Contact: projectnavex@gmail.com
 
-Donation: https://projectnavex.com/donate.html
+Donation: [https://projectnavex.com/donate.html](https://projectnavex.com/donate.html])
 
 ---
 Thanks for reading and hope that you guys find this app useful! Please help to share this tool with your buddies in combat units, SCS and OCS, we're sure they'll find it very helpful!
