@@ -1,12 +1,13 @@
-# Project Navex, an NDS generator website
+# Project Navex
 
 Hello fellow NSFs & NSmen combatants!
 
 I'm sure many of you guys have felt the pain of preparing your NDS right before a navigation exercise or mission. Measuring the MGR and azimuth over and over again and wasting time that could be spent preparing or simply resting in bunk for a little more before the outfield.
 
-Fret not, because over the last (and final hehe) 2 months, my friend and I have been working on an Navigation Data Sheet (NDS) generator program and it is finally ready for release on [projectnavex.com](https://projectnavex.com)!  
+Fret not, because over the last (and final hehe) 2 months, my friend and I have been working on an Navigation Data Sheet (NDS) generator program and it is finally ready for release on [projectnavex.com](https://projectnavex.com)!
 
 ---
+
 **How to use:**
 
 The tool is very straightforward and easy to use!
@@ -20,20 +21,22 @@ Do keep in mind that currently, the tool only creates straight lines between che
 ***Water detection and auto rerouting is in the works so stay tuned for that :p***
 
 ---
+
 **Links:**
 
 Website: [projectnavex.com](https://projectnavex.com)
 
 GitHub: [https://github.com/projectnavex/project-navex](https://github.com/projectnavex/project-navex)
 
-Contact: projectnavex@gmail.com
+Contact: [projectnavex@gmail.com](mailto:projectnavex@gmail.com)
 
 Donation: [https://projectnavex.com/donate.html](https://projectnavex.com/donate.html])
 
 ---
+
 Thanks for reading and hope that you guys find this app useful! Please help to share this tool with your buddies in combat units, SCS and OCS, we're sure they'll find it very helpful!
 
-If you face any issues with the website or have any enquiries, feel free to DM us here or email us at projectnavex@gmail.com.
+If you face any issues with the website or have any enquiries, feel free to DM us here or email us at [projectnavex@gmail.com](mailto:projectnavex@gmail.com).
 
 We would also kindly like to ask you to consider [donating](https://projectnavex.com/donate.html) to help us cover the cost of using the APIs and domain for hosting the website. We'd love to keep this website free and accessible for future generations of NSFs and NSmen! Any amount would be appreciated! Thank you!
 
