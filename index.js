@@ -338,99 +338,101 @@ function getNDS(response) {
         interval = 50;
     }
 
-    // Create canvas of Google Static Map with current center
+    // Create image to show water only
     const center = map.getCenter();
-    createCanvas(center);
 
-    // Initialize grid for pathfinding
-    const canvas = document.getElementById("water-canvas");
-    const imgData = canvas.getContext("2d", {willReadFrequently: true}).getImageData(0, 0, 640, 640).data;
-    const grid = initGrid(imgData);
-    console.log(grid);
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = `https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center=${center.lat()},${center.lng()}&scale=1&zoom=15&size=640x640&style=feature:administrative|visibility:off&style=feature:landscape|visibility:off&style=feature:poi|visibility:off&style=feature:road|visibility:off&style=feature:transit|visibility:off&style=feature:water|color:0x00ff00&style=element:labels|visibility:off&key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ`;
 
-    const points = [mgrs[0]];
-    const ptDists = [];
-    const azimuths = [];
-    const path = poly.getPath();
+    img.onload = function() {
+        // Initialize grid for pathfinding
+        const grid = initGrid(img);
 
-    // orginalMGR[i] is true if the ith MGR is in the original MGR list.
-    // This array is used for highlighting the original MGRS in the NDS table.
-    const originalMGR = [true];
+        const points = [mgrs[0]];
+        const ptDists = [];
+        const azimuths = [];
+        const path = poly.getPath();
 
-    // Format MGRS data.
-    for (let i = 1; i < mgrs.length; i++) {
-        // Previous point.
-        let easting = mgrs[i - 1].e;
-        let northing = mgrs[i - 1].n;
+        // orginalMGR[i] is true if the ith MGR is in the original MGR list.
+        // This array is used for highlighting the original MGRS in the NDS table.
+        const originalMGR = [true];
 
-        let lat = path.getAt(i-1).lat();
-        let lng = path.getAt(i-1).lng();
+        // Format MGRS data.
+        for (let i = 1; i < mgrs.length; i++) {
+            // Previous point.
+            let easting = mgrs[i - 1].e;
+            let northing = mgrs[i - 1].n;
 
-        // Calculate distance & azimuth between 2 points
-        const eDiff = mgrs[i].e - easting;
-        const nDiff = mgrs[i].n - northing;
-        const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
-        const azimuth = calcAzimuth(eDiff, nDiff);
+            let lat = path.getAt(i-1).lat();
+            let lng = path.getAt(i-1).lng();
 
-        const latDiff = path.getAt(i).lat() - lat;
-        const lngDiff = path.getAt(i).lng() - lng;
+            // Calculate distance & azimuth between 2 points
+            const eDiff = mgrs[i].e - easting;
+            const nDiff = mgrs[i].n - northing;
+            const dist = ((eDiff ** 2 + nDiff ** 2) ** 0.5) / (interval / 10);
+            const azimuth = calcAzimuth(eDiff, nDiff);
 
-        // Derive Easting & Northing increments for subpoints
-        const eIncrement = eDiff / dist;
-        const nIncrement = nDiff / dist;
+            const latDiff = path.getAt(i).lat() - lat;
+            const lngDiff = path.getAt(i).lng() - lng;
 
-        const latIncrement = latDiff / dist;
-        const lngIncrement = lngDiff / dist;
+            // Derive Easting & Northing increments for subpoints
+            const eIncrement = eDiff / dist;
+            const nIncrement = nDiff / dist;
 
-        // Creating subpoints
-        for (let j = 0; j < Math.floor(dist); j++) {
-            // Check if subpoint is on water
-            const pxCoordinates = latLngToPx(lat + latIncrement, lng + lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
-            if (isWater(pxCoordinates)) {
-                // Shift to path finding
-                console.log('w', easting+eIncrement, northing+nIncrement);
+            const latIncrement = latDiff / dist;
+            const lngIncrement = lngDiff / dist;
+
+            // Creating subpoints
+            for (let j = 0; j < Math.floor(dist); j++) {
+                // Check if subpoint is on water
+                const pxCoordinates = latLngToPx(lat + latIncrement, lng + lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+                if (isWater(pxCoordinates, img)) {
+                    // Shift to path finding
+                    console.log('w', easting+eIncrement, northing+nIncrement);
+                } else {
+                    console.log('n', easting+eIncrement, northing+nIncrement);
+                }
+                // ### SHIFT THIS PART TO ELSE AFTER IMPLEMENTING PATH FINDING ###
+                lat += latIncrement;
+                lng += lngIncrement;
+
+                easting += eIncrement;
+                northing += nIncrement;
+
+                points.push({e: easting, n: northing});
+                ptDists.push(interval);
+                azimuths.push(azimuth);
+
+                originalMGR.push(false);
+            }
+
+            // If distance < interval or if distance not perfectly divisible by interval
+            const remainder = dist - Math.floor(dist);
+
+            // Check if point is on water
+            const pxCoordinates = latLngToPx(lat + remainder * latIncrement, lng + remainder * lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
+            if (isWater(pxCoordinates, img)) {
+                // Implement path finding
+                console.log('w', easting+remainder*eIncrement, northing+remainder*nIncrement);
             } else {
-                console.log('n', easting+eIncrement, northing+nIncrement);
+                console.log('n', easting+remainder*eIncrement, northing+remainder*nIncrement);
             }
             // ### SHIFT THIS PART TO ELSE AFTER IMPLEMENTING PATH FINDING ###
-            lat += latIncrement;
-            lng += lngIncrement;
-
-            easting += eIncrement;
-            northing += nIncrement;
+            easting += remainder * eIncrement;
+            northing += remainder * nIncrement;
 
             points.push({e: easting, n: northing});
-            ptDists.push(interval);
+            ptDists.push(Math.floor(remainder * interval));
             azimuths.push(azimuth);
 
-            originalMGR.push(false);
+            originalMGR.push(true);
         }
 
-        // If distance < interval or if distance not perfectly divisible by interval
-        const remainder = dist - Math.floor(dist);
-
-        // Check if point is on water
-        const pxCoordinates = latLngToPx(lat + remainder * latIncrement, lng + remainder * lngIncrement, center.lat(), center.lng(), 15); // ### PLACEHOLDER CENTER LATLNG! CHANGE LTR ###
-        if (isWater(pxCoordinates)) {
-            // Implement path finding
-            console.log('w', easting+remainder*eIncrement, northing+remainder*nIncrement);
-        } else {
-            console.log('n', easting+remainder*eIncrement, northing+remainder*nIncrement);
-        }
-        // ### SHIFT THIS PART TO ELSE AFTER IMPLEMENTING PATH FINDING ###
-        easting += remainder * eIncrement;
-        northing += remainder * nIncrement;
-
-        points.push({e: easting, n: northing});
-        ptDists.push(Math.floor(remainder * interval));
-        azimuths.push(azimuth);
-
-        originalMGR.push(true);
+        // Make the last entry highlighted as well.
+        originalMGR[azimuths.length - 1] = true;
+        new generateTable(points, azimuths, ptDists, originalMGR);
     }
-
-    // Make the last entry highlighted as well.
-    originalMGR[azimuths.length - 1] = true;
-    new generateTable(points, azimuths, ptDists, originalMGR);
 }
 
 function calcAzimuth(eDiff, nDiff) {
@@ -514,10 +516,15 @@ function createCanvas(center) {
 }
 
 // Initialize 2D array Grid
-function initGrid(imgData) {
+function initGrid(img) {
+    // Draw img onto canvas    
+    const canvas = document.getElementById("water-canvas");
+    canvas.getContext("2d", {willReadFrequently: true}).drawImage(img, 0, 0, img.width, img.height);
+
+    // Get array of RGBA values
+    const imgData = canvas.getContext("2d", {willReadFrequently: true}).getImageData(0, 0, 640, 640).data;
+    
     var grid = [];
-    var tr = 0;
-    var fa = 0;
 
     const height = 640;
     const width = 640;
@@ -532,17 +539,13 @@ function initGrid(imgData) {
             // Check if corresponding pixel is water
             if (imgData[(y * width + x) * 4 + 1] === 255) {
                 point.water = true;
-                tr++;
             } else {
                 point.water = false;
-                fa++;
             }
 
             grid.push(point);
-            console.log(tr, fa);
         }
     }
-
     return grid;
 }
 
@@ -566,9 +569,14 @@ function latLngToPx(lat, lng, clat, clng, zoom) {
 }
 
 // Check if point is water using on canvas
-function isWater(pxCoordinates) {
-    var c = document.getElementById("water-canvas");
-    var ctx = c.getContext("2d", {willReadFrequently: true});
+function isWater(pxCoordinates, img) {
+    // Draw image onto canvas
+    var canvas = document.getElementById("water-canvas");
+    var ctx = canvas.getContext("2d", {willReadFrequently: true});
+    ctx.clearRect(0, 0, 640, 640);
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    
+    // Get RGBA of target pixel
     var data = ctx.getImageData(pxCoordinates.x, pxCoordinates.y, 1, 1).data;
 
     if (data[1] === 255) {
