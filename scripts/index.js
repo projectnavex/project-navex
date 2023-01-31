@@ -169,7 +169,7 @@ function initMap() {
               elementType: "labels.text.stroke",
               stylers: [{ color: "#17263c" }],
             },
-          ]
+        ]
     };
 
     // Initialize map.
