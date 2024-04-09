@@ -272,6 +272,38 @@ inline css
     width: 80px;
 }
 
+#download-kml-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+#download-kml-btn {
+    background-color: #fff; /* White background */
+    color: #346751; /* Text color */
+    border-radius: 75px;
+    border: 2px solid #ffffff;
+    width: 150px;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Space Mono';
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+#download-kml-btn:hover {
+    background-color: #346751; /* Hover background color */
+    color: #fff; /* Hover text color */
+}
+
+#download-kml-btn:active {
+    transform: scale(0.98);
+}
+
+
 /* Pillbox for 50m or 100m */
 .intervals {
     display: flex;
