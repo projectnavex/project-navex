@@ -15,6 +15,13 @@ h1 {
     font-family: 'Major Mono Display';
 }
 
+.body-content {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .instructions {
     font-size: 16px;
     opacity: 0.7;
