@@ -31,7 +31,7 @@ function initDropdown() {
 
         // Add a click event to the select element.
         select.addEventListener('click', () => {
-        
+
             select.classList.toggle('select-clicked');
             caret.classList.toggle('caret-rotate');
             menu.classList.toggle('menu-open');
@@ -91,83 +91,83 @@ function initMap() {
         disableDoubleClickZoom: true,
         keyboardShortcuts: false,
         styles: [  // Dark Mode
-            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+            {elementType: "geometry", stylers: [{color: "#242f3e"}]},
+            {elementType: "labels.text.stroke", stylers: [{color: "#242f3e"}]},
+            {elementType: "labels.text.fill", stylers: [{color: "#746855"}]},
             {
-              featureType: "administrative.locality",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "administrative.locality",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#d59563"}],
             },
             {
-              featureType: "poi",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "poi",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#d59563"}],
             },
             {
-              featureType: "poi.park",
-              elementType: "geometry",
-              stylers: [{ color: "#263c3f" }],
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{color: "#263c3f"}],
             },
             {
-              featureType: "poi.park",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#6b9a76" }],
+                featureType: "poi.park",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#6b9a76"}],
             },
             {
-              featureType: "road",
-              elementType: "geometry",
-              stylers: [{ color: "#38414e" }],
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{color: "#38414e"}],
             },
             {
-              featureType: "road",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#212a37" }],
+                featureType: "road",
+                elementType: "geometry.stroke",
+                stylers: [{color: "#212a37"}],
             },
             {
-              featureType: "road",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#9ca5b3" }],
+                featureType: "road",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#9ca5b3"}],
             },
             {
-              featureType: "road.highway",
-              elementType: "geometry",
-              stylers: [{ color: "#746855" }],
+                featureType: "road.highway",
+                elementType: "geometry",
+                stylers: [{color: "#746855"}],
             },
             {
-              featureType: "road.highway",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#1f2835" }],
+                featureType: "road.highway",
+                elementType: "geometry.stroke",
+                stylers: [{color: "#1f2835"}],
             },
             {
-              featureType: "road.highway",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#f3d19c" }],
+                featureType: "road.highway",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#f3d19c"}],
             },
             {
-              featureType: "transit",
-              elementType: "geometry",
-              stylers: [{ color: "#2f3948" }],
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{color: "#2f3948"}],
             },
             {
-              featureType: "transit.station",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "transit.station",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#d59563"}],
             },
             {
-              featureType: "water",
-              elementType: "geometry",
-              stylers: [{ color: "#17263c" }],
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{color: "#17263c"}],
             },
             {
-              featureType: "water",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#515c6d" }],
+                featureType: "water",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#515c6d"}],
             },
             {
-              featureType: "water",
-              elementType: "labels.text.stroke",
-              stylers: [{ color: "#17263c" }],
+                featureType: "water",
+                elementType: "labels.text.stroke",
+                stylers: [{color: "#17263c"}],
             },
         ]
     };
@@ -197,10 +197,10 @@ function initMap() {
     poly.setMap(map);
 
     // Initialize infowindow for each marker.
-    const content = 
-		'<div id="infowindow">' + 
+    const content =
+        '<div id="infowindow">' +
         '<button onclick="deleteMarker()">Delete</button>' +
-		'</div>';
+        '</div>';
     infowindow = new google.maps.InfoWindow({content: content})
 
     // Add markers to map upon user click.
@@ -238,18 +238,18 @@ function addLatLng(position, map) {
 
 // Delete specific marker.
 function deleteMarker() {
-  	for (var i = 0; i < markers.length; i++) {
-    	if (markers[i].id == activeMarker) {
-      		// Remove the marker from the map.
-			markers[i].setMap(null);
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i].id === activeMarker) {
+            // Remove the marker from the map.
+            markers[i].setMap(null);
 
-			// Remove the marker from the markers array.
-			markers.splice(i, 1);
+            // Remove the marker from the markers array.
+            markers.splice(i, 1);
         }
     }
-  
-	// Refresh polyline path so that it no longer follows deleted marker.
-	poly.setPath(markers.map(marker => marker.position));
+
+    // Refresh polyline path so that it no longer follows deleted marker.
+    poly.setPath(markers.map(marker => marker.position));
 }
 
 // Delete all markers.
@@ -267,33 +267,33 @@ function deleteMarkers() {
 }
 
 function addUserMGR() {
-	// Extract MGR from input box.
-	var inputBox = document.getElementById("mgr-input-box")
-	const mgr = inputBox.value;
-  
-	// Invalid MGR.
-	if (mgr.length != 8 | isNaN(mgr)) {
-		document.getElementById("mgr-input-result").innerHTML = "Invalid MGR.";
-	} else {
-		// Valid MGR.
-		document.getElementById("mgr-input-result").innerHTML = "Your MGR has been added!";
-		const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
-		const dstEpsg = 4326; // WGS 84
-		const lng = "".concat("6", mgr.slice(0, 4), "0");
-		const lat = "".concat("1", mgr.slice(4, 8), "0");
-	
-		// Convert MGR to coordinates used by Google Maps.
-		const script = document.createElement('script');
-		script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
-		document.body.appendChild(script);
-	}
-  	inputBox.value = "";
+    // Extract MGR from input box.
+    var inputBox = document.getElementById("mgr-input-box")
+    const mgr = inputBox.value;
+
+    // Invalid MGR.
+    if (mgr.length !== 8 || isNaN(mgr)) {
+        document.getElementById("mgr-input-result").innerHTML = "Invalid MGR.";
+    } else {
+        // Valid MGR.
+        document.getElementById("mgr-input-result").innerHTML = "Your MGR has been added!";
+        const srcEpsg = 3168; // Kertau (RSO) / RSO Malaya
+        const dstEpsg = 4326; // WGS 84
+        const lng = "".concat("6", mgr.slice(0, 4), "0");
+        const lat = "".concat("1", mgr.slice(4, 8), "0");
+
+        // Convert MGR to coordinates used by Google Maps.
+        const script = document.createElement('script');
+        script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
+        document.body.appendChild(script);
+    }
+    inputBox.value = "";
 }
 
 // JSONP callback function for adding users point on the map.
 function getUserPoint(response) {
-	var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
-	addLatLng(position, map);
+    var position = new google.maps.LatLng(parseFloat(response.y), parseFloat(response.x))
+    addLatLng(position, map);
 }
 
 // Transform Google Map coordinates into the MGR that we use.
@@ -307,7 +307,7 @@ function transformCoordinates() {
     let data = "";
 
     // Format data for URL. For each point the user chose, add it to data.
-    path.getArray().forEach(function(point) {
+    path.getArray().forEach(function (point) {
         data += point.lng().toString() + ',' + point.lat().toString() + ';';
     })
 
@@ -323,10 +323,10 @@ function getNDS(response) {
     const mgrs = [];
 
     // Loop through JSON data and add data to mgrs array.
-    response.forEach(function(point) {
+    response.forEach(function (point) {
         mgrs.push({e: parseInt(point.x.slice(1, 5)), n: parseInt(point.y.slice(1, 5))});
     })
-    
+
     // Check for interval radio button.
     let interval;
 
@@ -341,7 +341,6 @@ function getNDS(response) {
     const points = [mgrs[0]];
     const ptDists = [];
     const azimuths = [];
-    const path = poly.getPath();
 
     // orginalMGR[i] is true if the ith MGR is in the original MGR list.
     // This array is used for highlighting the original MGRS in the NDS table.
@@ -390,11 +389,11 @@ function getNDS(response) {
 
     // Make the last entry highlighted as well.
     originalMGR[azimuths.length - 1] = true;
-    new generateTable(points, azimuths, ptDists, originalMGR);
+    generateTable(points, azimuths, ptDists, originalMGR);
 }
 
 function calcAzimuth(eDiff, nDiff) {
-    if (eDiff == 0) {
+    if (eDiff === 0) {
         // Vertical
         if (nDiff > 0) {
             // Upwards
@@ -429,7 +428,7 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
 
     // Insert table headers
     const headers = document.createElement("tr");
-    
+
     headers.appendChild(createCell("th", "No."));
     headers.appendChild(createCell("th", "Start MGR"));
     headers.appendChild(createCell("th", "End MGR"));
@@ -441,8 +440,8 @@ function generateTable(points, azimuths, ptDists, originalMGR) {
     // Insert data
     for (let i = 0; i < azimuths.length; i++) {
         const row = document.createElement("tr");
-        const startMGR = Math.floor(points[i].e).toString() + ' ' +  Math.floor(points[i].n).toString();
-        const endMGR = Math.floor(points[i + 1].e).toString() + ' ' +  Math.floor(points[i + 1].n).toString();
+        const startMGR = Math.floor(points[i].e).toString() + ' ' + Math.floor(points[i].n).toString();
+        const endMGR = Math.floor(points[i + 1].e).toString() + ' ' + Math.floor(points[i + 1].n).toString();
 
         row.appendChild(createCell("td", i + 1));
         row.appendChild(createCell("td", startMGR));

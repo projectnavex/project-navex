@@ -21,5 +21,5 @@ We wanted to create a web application that allows the user to plot their navex c
 8. Click run to generate an NDS based on the checkpoints plotted on the map.
 9. In the NDS, checkpoints will be yellow colored while sub-checkpoints white.
 
-![Fig. 1](Images/screenshot1.png "Fig. 1")
-![Fig. 1](Images/screenshot2.png "Fig. 1")
+![Fig. 1](images/screenshot1.png "Fig. 1")
+![Fig. 1](images/screenshot2.png "Fig. 1")
