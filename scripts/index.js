@@ -207,6 +207,9 @@ function initMap() {
     map.addListener("click", e => addLatLng(e.latLng, map))
 }
 
+// Global variable to track whether coordinates are received.
+let coordinatesReceived = false;
+
 function addLatLng(position, map) {
     // Add marker to map.
     const marker = new google.maps.Marker({
@@ -219,7 +222,7 @@ function addLatLng(position, map) {
     marker.id = uniqueID;
     uniqueID++;
 
-    // Add even listener to markers.
+    // Add event listener to markers.
     marker.addListener("click", () => {
         infowindow.open(map, marker);
         activeMarker = marker.id;
@@ -234,7 +237,24 @@ function addLatLng(position, map) {
     // MVC-array that stores coordinates.
     const path = poly.getPath();
     path.push(position);
+
+    // Convert the coordinates to MGR using an external API.
+    const srcEpsg = 4326; // WGS 84
+    const dstEpsg = 3168; // Kertau (RSO) / RSO Malaya
+    const script = document.createElement('script');
+    script.src = `https://epsg.io/trans?x=${position.lng()}&y=${position.lat()}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=handleMGRConversion`;
+    document.body.appendChild(script);
 }
+
+// Callback function to handle the MGR conversion response.
+function handleMGRConversion(response) {
+    console.log(response)
+    const mgrName = `${response.x.slice(0, 4)} ${response.y.slice(0, 4)}`; // Generate MGR name
+    waypoints.push({ name: mgrName, coordinates: [parseFloat(response.x), parseFloat(response.y)] });
+    // Set coordinatesReceived flag to true.
+    coordinatesReceived = true;
+}
+
 
 // Delete specific marker.
 function deleteMarker() {
@@ -302,8 +322,7 @@ function addUserMGR() {
 }
 
 
-// Global variable to track whether coordinates are received.
-let coordinatesReceived = false;
+
 
 // Function to handle the callback from the coordinate conversion API.
 function getUserPoint(data) {
@@ -413,6 +432,7 @@ function transformCoordinates() {
 // JSONP callback function that receives JSON data from espg API.
 function getNDS(response) {
     // Store transformed MGRS.
+    console.log(response)
     const mgrs = [];
 
     // Loop through JSON data and add data to mgrs array.
