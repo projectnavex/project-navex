@@ -46,7 +46,8 @@
 
                 <div id="map"></div>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
-
+            
+                    
                 <p class="instructions" id="mgr-input-result">Or manually input your points.</p>
                 <div id="mgr-input">
                     <div id="mgr-input-group">
@@ -72,6 +73,14 @@
                 </div>
 
                 <div id="table-div"></div>
+                <p class="instructions">Export Waypoints to Google Earth.</p>
+                <div id="download-kml-container">
+                    
+
+                    <button id="download-kml-btn" onclick="downloadKML()">Download KML</button>
+                </div>
+
+
             </div>
 
             <footer>
