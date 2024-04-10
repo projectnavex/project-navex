@@ -204,13 +204,13 @@ function initMap() {
     infowindow = new google.maps.InfoWindow({content: content})
 
     // Add markers to map upon user click.
-    map.addListener("click", e => addLatLng(e.latLng, map))
+    map.addListener("click", e => addLatLng(e.latLng, map,false))
 }
 
 // Global variable to track whether coordinates are received.
 let coordinatesReceived = false;
 
-function addLatLng(position, map) {
+function addLatLng(position, map,ismanual=false) {
     // Add marker to map.
     const marker = new google.maps.Marker({
         position: position,
@@ -233,27 +233,44 @@ function addLatLng(position, map) {
 
     // Update markers array.
     markers.push(marker);
+    console.log(marker)
 
     // MVC-array that stores coordinates.
     const path = poly.getPath();
     path.push(position);
 
-    // Convert the coordinates to MGR using an external API.
-    const srcEpsg = 4326; // WGS 84
-    const dstEpsg = 3168; // Kertau (RSO) / RSO Malaya
-    const script = document.createElement('script');
-    script.src = `https://epsg.io/trans?x=${position.lng()}&y=${position.lat()}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=handleMGRConversion`;
-    document.body.appendChild(script);
+    if (!ismanual){
+
+        // Convert the coordinates to MGR using an external API.
+        const srcEpsg = 4326; // WGS 84
+        const dstEpsg = 3168; // Kertau (RSO) / RSO Malaya
+        const script = document.createElement('script');
+        script.src = `https://epsg.io/trans?x=${position.lng()}&y=${position.lat()}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=handleMGRConversion`;
+        document.body.appendChild(script);
+    }
 }
 
 // Callback function to handle the MGR conversion response.
 function handleMGRConversion(response) {
-    console.log(response)
-    const mgrName = `${response.x.slice(0, 4)} ${response.y.slice(0, 4)}`; // Generate MGR name
-    waypoints.push({ name: mgrName, coordinates: [parseFloat(response.x), parseFloat(response.y)] });
+    console.log("Outputted MGR:", response)
+    // Extract the MGR name from the response (just for logging, not used for coordinates)
+    const mgrName = `${response.x.slice(0, 4)} ${response.y.slice(0, 4)}`;
+
+    // Use the original Google Maps position as the coordinates for the waypoint
+    // path is the MVC-array of the points the user clicked on the map.
+    const path = poly.getPath();
+    let data = "";
+    
+    const position = markers[markers.length - 1].getPosition();
+    const coordinates = [position.lng(), position.lat()];
+    console.log("handleMGRConversion",coordinates)
+    // Add the waypoint to the waypoints array
+    waypoints.push({ name: mgrName, coordinates: coordinates });
+
     // Set coordinatesReceived flag to true.
     coordinatesReceived = true;
 }
+
 
 
 // Delete specific marker.
@@ -289,6 +306,7 @@ function deleteMarkers() {
 // Global variable to store user-added waypoints.
 let waypoints = [];
 
+
 function addUserMGR() {
     // Extract MGR from input box.
     var inputBox = document.getElementById("mgr-input-box");
@@ -317,6 +335,7 @@ function addUserMGR() {
         script.src = `https://epsg.io/trans?x=${lng}&y=${lat}&s_srs=${srcEpsg}&t_srs=${dstEpsg}&callback=getUserPoint`;
         document.body.appendChild(script);
         console.log("Script appended to document body:", script);
+        
     }
 
 }
@@ -343,7 +362,7 @@ function getUserPoint(data) {
 
             // Plot it onto google maps
             var position = new google.maps.LatLng(parseFloat(data.y), parseFloat(data.x))
-            addLatLng(position, map);
+            addLatLng(position, map, true);
 
             // Set coordinatesReceived flag to true.
             coordinatesReceived = true;
@@ -364,6 +383,7 @@ function getUserPoint(data) {
 function generateKMLContent() {
     let placemarks = "";
     waypoints.forEach((waypoint, index) => {
+        console.log("generateKMLContent",waypoint.coordinates)
         placemarks += `
         <Placemark>
             <name>${waypoint.name}</name>
