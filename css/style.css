@@ -1,187 +1,187 @@
 ::selection {
-    background: rgb(0, 0, 0, 0.5);
-  }
+  background: rgb(0, 0, 0, 0.5);
+}
 
 body {
-    background-color: #292929;
-    color: #ffffff;
-    font-family: 'Space Mono';
-    margin: 0;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  background-color: #292929;
+  color: #ffffff;
+  font-family: "Space Mono";
+  margin: 0;
+  text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 h1 {
-    color: #6da48d;
-    font-family: 'Major Mono Display';
+  color: #6da48d;
+  font-family: "Major Mono Display";
 }
 
 .body-content {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .instructions {
-    font-size: 16px;
-    opacity: 0.7;
-    text-align: center;
-    margin: 20px 10px 10px 0;
+  font-size: 16px;
+  opacity: 0.7;
+  text-align: center;
+  margin: 20px 10px 10px 0;
 }
 
 .center-text {
-    text-align: center;
+  text-align: center;
 }
 
 /* Dropdown Container Styles */
 .dropdown-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-wrap: wrap;
 }
 
 .dropdown {
-    min-width: 15em;
-    position: relative;
-    margin: 1em 0 2em 0;
+  min-width: 15em;
+  position: relative;
+  margin: 1em 0 2em 0;
 }
 
 .dropdown * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .select {
-    background: #2a2f3b;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px #2a2f3b solid;
-    border-radius: 0.5em;
-    padding: 1em;
-    cursor: pointer;
-    transition: background 0.3s;
+  background: #2a2f3b;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px #2a2f3b solid;
+  border-radius: 0.5em;
+  padding: 1em;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .select-clicked {
-    border: 2px #26489a solid;
-    box-shadow: 0 0 0.8em #26489a;
+  border: 2px #26489a solid;
+  box-shadow: 0 0 0.8em #26489a;
 }
 
 .select:hover {
-    background: #323741;
+  background: #323741;
 }
 
 .caret {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #fff;
-    transition: 0.3s;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #fff;
+  transition: 0.3s;
 }
 
 .caret-rotate {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .menu {
-    list-style: none;
-    padding: 0.2em 0.5em;
-    background: #323741;
-    border: 1px #363a43 solid;
-    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
-    border-radius: 0.5em;
-    color: #9fa5b5;
-    position: absolute;
-    top: 3em;
-    left: 50%;
-    width: 100%;
-    transform: translateX(-50%);
-    opacity: 0;
-    display: none;
-    transition: 0.2s;
-    z-index: 2;
+  list-style: none;
+  padding: 0.2em 0.5em;
+  background: #323741;
+  border: 1px #363a43 solid;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+  border-radius: 0.5em;
+  color: #9fa5b5;
+  position: absolute;
+  top: 3em;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  opacity: 0;
+  display: none;
+  transition: 0.2s;
+  z-index: 2;
 }
 
 .menu li {
-    padding: 0.7em 0.5em;
-    margin: 0.3em 0;
-    border-radius: 0.5em;
-    cursor: pointer;
+  padding: 0.7em 0.5em;
+  margin: 0.3em 0;
+  border-radius: 0.5em;
+  cursor: pointer;
 }
 
 .menu li:hover {
-    background: #2a2d35;
+  background: #2a2d35;
 }
 
 .active {
-    background: #23242a;
+  background: #23242a;
 }
 
 .menu-open {
-    display: block;
-    opacity: 1;
+  display: block;
+  opacity: 1;
 }
 
 /* Google Map Styles */
 #map {
-    height: 400px;
-    width: 100%;
+  height: 400px;
+  width: 100%;
 }
 
 /* Buttons that toggle map type */
 .map-buttons {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 0.5em 1em;
-    position: absolute;
-    z-index: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 1em;
+  position: absolute;
+  z-index: 1;
 }
 
 .map-toggle {
-    width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-toggle input[type="radio"] {
-    opacity: 0;
-    position: fixed;
-    width: 0;
+  opacity: 0;
+  position: fixed;
+  width: 0;
 }
 
 .map-toggle label {
-    font-size: 10px;
-    color: #000;
-    width: 50%;
-    text-align: center;
-    background: #fff;
-    border: 0;
-    padding: 0.6em;
-    -o-transition: background 100ms ease-out;
-    -webkit-transition: background 100ms ease-out;
-    -moz-transition: background 100ms ease-out;
-    -ms-transition: background 100ms ease-out;
-    transition: background 100ms ease-out;
-    cursor: pointer;
+  font-size: 10px;
+  color: #000;
+  width: 50%;
+  text-align: center;
+  background: #fff;
+  border: 0;
+  padding: 0.6em;
+  -o-transition: background 100ms ease-out;
+  -webkit-transition: background 100ms ease-out;
+  -moz-transition: background 100ms ease-out;
+  -ms-transition: background 100ms ease-out;
+  transition: background 100ms ease-out;
+  cursor: pointer;
 }
 
 .map-toggle .roadmap {
-    border-radius: 1.25em 0 0 1.25em;
+  border-radius: 1.25em 0 0 1.25em;
 }
 
 .map-toggle .hybrid {
-    border-radius: 0 1.25em 1.25em 0;
+  border-radius: 0 1.25em 1.25em 0;
 }
 
 .map-toggle input:checked + label {
-    background-color: #393f4d;
-    color: #fff;
+  background-color: #393f4d;
+  color: #fff;
 }
 
 /* 
@@ -193,225 +193,225 @@ inline css
 
 /* Infowindow background */
 .gm-style .gm-style-iw-c {
-    display: flex !important;
-    padding: 0 !important;
+  display: flex !important;
+  padding: 0 !important;
 }
 
 /* If I don't do this it looks weird in some browsers */
 .gm-style-iw-d {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
 /* CSS for close button. */
 .gm-ui-hover-effect {
-    position: relative !important;
-    top: 2px !important;
-    right: 2px !important;
-    border-radius: 0 6px 6px 0 !important;
-    height: 25px !important;
-    width: 25px !important;
-    background-color: #71a18d !important;
-    opacity: 1 !important;
+  position: relative !important;
+  top: 2px !important;
+  right: 2px !important;
+  border-radius: 0 6px 6px 0 !important;
+  height: 25px !important;
+  width: 25px !important;
+  background-color: #71a18d !important;
+  opacity: 1 !important;
 }
 
 /* 'X' symbol on the close button */
 .gm-ui-hover-effect span {
-    margin: 5px !important;
+  margin: 5px !important;
 }
 
 /* Delete button on infowindow */
 #infowindow button {
-    background-color: #C84B31;
-    color: #FFFFFF;
-    border-radius: 6px 0 0 6px;
-    border-style: none;
-    font-family: 'Space Mono';
-    font-size: 10px;
-    height: 25px;
-    padding: 5px;
-    margin: 2px;
-    cursor: pointer;
+  background-color: #c84b31;
+  color: #ffffff;
+  border-radius: 6px 0 0 6px;
+  border-style: none;
+  font-family: "Space Mono";
+  font-size: 10px;
+  height: 25px;
+  padding: 5px;
+  margin: 2px;
+  cursor: pointer;
 }
 
 /* Manual MGR input */
 #mgr-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 #mgr-input-group {
-    width: 360px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  width: 360px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #mgr-input-box {
-    font-family: 'Space Mono';
-    font-size: 15px;
-    text-align: center;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    padding: 0.60em;
-    width: 240px;
+  font-family: "Space Mono";
+  font-size: 15px;
+  text-align: center;
+  border-radius: 75px;
+  border: 2px solid #ffffff;
+  padding: 0.6em;
+  width: 240px;
 }
 
 #mgr-input-button {
-    background-color: #346751;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    text-align: center;
-    text-decoration: none;
-    color: #ffffff;
-    font-family: 'Space Mono';
-    cursor: pointer;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
-    width: 80px;
+  background-color: #346751;
+  border-radius: 75px;
+  border: 2px solid #ffffff;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: "Space Mono";
+  cursor: pointer;
+  text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+  width: 80px;
 }
 
 /* Pillbox for 50m or 100m */
 .intervals {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .radiogroup {
-    width: 360px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+  width: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 .radiogroup input[type="radio"] {
-    opacity: 0;
-    position: fixed;
-    width: 0;
+  opacity: 0;
+  position: fixed;
+  width: 0;
 }
 
 .radiogroup label {
-    width: 50%;
-    text-align: center;
-    background: #ffffff;
-    color: #000000;
-    border: 0;
-    padding: 0.60em;
-    -o-transition: background 100ms ease-out;
-    -webkit-transition: background 100ms ease-out;
-    -moz-transition: background 100ms ease-out;
-    -ms-transition: background 100ms ease-out;
-    transition: background 100ms ease-out;
-    cursor: pointer;
+  width: 50%;
+  text-align: center;
+  background: #ffffff;
+  color: #000000;
+  border: 0;
+  padding: 0.6em;
+  -o-transition: background 100ms ease-out;
+  -webkit-transition: background 100ms ease-out;
+  -moz-transition: background 100ms ease-out;
+  -ms-transition: background 100ms ease-out;
+  transition: background 100ms ease-out;
+  cursor: pointer;
 }
 
 .radiogroup .radio-left {
-    border-radius: 75px 0 0 75px;
+  border-radius: 75px 0 0 75px;
 }
 
 .radiogroup .radio-right {
-    border-radius: 0 75px 75px 0;
+  border-radius: 0 75px 75px 0;
 }
 
 .radiogroup input:checked + label {
-    background-color: #346751;
-    color: #ffffff;
+  background-color: #346751;
+  color: #ffffff;
 }
 
 /* Follow up action for running / clearing points. */
 .follow-up-action {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 30px;
 }
 
 .follow-up-action button:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 #clear {
-    background-color: #C84B31;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    width: 80px;
-    padding: 1em;
-    text-align: center;
-    text-decoration: none;
-    color: #ffffff;
-    font-family: 'Space Mono';
-    cursor: pointer;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+  background-color: #c84b31;
+  border-radius: 75px;
+  border: 2px solid #ffffff;
+  width: 80px;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: "Space Mono";
+  cursor: pointer;
+  text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 #run {
-    background-color: #346751;
-    border-radius: 75px;
-    border: 2px solid #ffffff;
-    width: 80px;
-    padding: 1em;
-    text-align: center;
-    text-decoration: none;
-    color: #ffffff;
-    font-family: 'Space Mono';
-    cursor: pointer;
-    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+  background-color: #346751;
+  border-radius: 75px;
+  border: 2px solid #ffffff;
+  width: 80px;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: "Space Mono";
+  cursor: pointer;
+  text-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 /* NDS table */
 #table-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 table {
-    border: 1px solid #000000;
-    border-collapse: collapse;
-    width: 95%;
-    text-align: center;
+  border: 1px solid #000000;
+  border-collapse: collapse;
+  width: 95%;
+  text-align: center;
 }
 
 th {
-    border:1px solid #000000;
-    background-color: #346751;
-    padding: 6px 2px;
+  border: 1px solid #000000;
+  background-color: #346751;
+  padding: 6px 2px;
 }
 
 td {
-    border:1px solid #000000;
-    padding: 6px 2px;
+  border: 1px solid #000000;
+  padding: 6px 2px;
 }
 
 tr:nth-child(even) {
-    background-color: #212121;
+  background-color: #212121;
 }
 
 footer {
-    background-color: #181818;
-    padding: 15px 0 20px;
-    margin-top: 30px;
-    text-align: center;
+  background-color: #181818;
+  padding: 15px 0 20px;
+  margin-top: 30px;
+  text-align: center;
 }
 
 #footer-text p {
-    font-size: 11px;
-    color: #b3b3b3;
+  font-size: 11px;
+  color: #b3b3b3;
 }
 
 #footer-text p a {
-    color: #b3b3b3;
-    text-decoration: none;
+  color: #b3b3b3;
+  text-decoration: none;
 }
 
 /* Invisible canvas */
 #water-canvas {
-    display: none;
+  display: none;
 }

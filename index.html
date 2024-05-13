@@ -1,92 +1,124 @@
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Project Navex</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="css/style.css">
-        </head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Navex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-        <body>
-        <div class="body-content">
-            <div>
-                <h1 class="center-text">Project Navex</h1>
-                <p class="instructions">Generate your Navigation Data Sheet with a few simple clicks...</p>
+  <body>
+    <div class="body-content">
+      <div>
+        <h1 class="center-text">Project Navex</h1>
+        <p class="instructions">
+          Generate your Navigation Data Sheet with a few simple clicks...
+        </p>
 
-                <div class="dropdown-container">
-                    <div class="dropdown">
-                        <div class="select">
-                            <span class="selected">Lorong Asrama</span>
-                            <div class="caret"></div>
-                        </div>
-                        <ul class="menu">
-                            <li>Ama Keng</li>
-                            <li>Jalan Bahar</li>
-                            <li>Jalan Bathera</li>
-                            <li class="active">Lorong Asrama</li>
-                            <li>Lower Mandai</li>
-                            <li>Marsling</li>
-                            <li>Tekong</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="map-buttons">
-                    <div class="map-toggle">
-                        <input type="radio" name="map-radio-group" id="roadmap" value="roadmap" checked>
-                        <label for="roadmap" class="roadmap">Roadmap</label>
-                        <input type="radio" name="map-radio-group" id="hybrid" value="hybrid">
-                        <label for="hybrid" class="hybrid">Tactical</label>
-                    </div>
-                </div>
-
-                <div id="map"></div>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly" defer></script>
-
-                <p class="instructions" id="mgr-input-result">Or manually input your points.</p>
-                <div id="mgr-input">
-                    <div id="mgr-input-group">
-                        <input type="tel" maxlength="8" placeholder="Enter your MGR" id="mgr-input-box">
-                        <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
-                    </div>
-                </div>
-
-                <p class="instructions">Set distance intervals.</p>
-                <div class="intervals">
-                    <div class="radiogroup">
-                        <input type="radio" name="radio-group" id="day" value="day" checked>
-                        <label class="radio-left" for="day">Day (100m)</label>
-                        <input type="radio" name="radio-group" id="night" value="night">
-                        <label class="radio-right" for="night">Night (50m)</label>
-                    </div>
-                </div>
-
-                <p class="instructions">Clear Map or Generate NDS.</p>
-                <div class="follow-up-action">
-                    <button id="clear" onclick="deleteMarkers()">Clear</button>
-                    <button id="run" onclick="transformCoordinates()">Run</button>
-                </div>
-
-                <div id="table-div"></div>
+        <div class="dropdown-container">
+          <div class="dropdown">
+            <div class="select">
+              <span class="selected">Lorong Asrama</span>
+              <div class="caret"></div>
             </div>
-
-            <footer>
-                <div id="footer-text">
-                    <h3>ORD lo.</h3>
-                    <p>
-                        <a href="https://github.com/Airiinnn">Alex</a> |
-                        <a href="https://github.com/wuihee">Wuihee</a> |
-                        <a href ="mailto: projectnavex@gmail.com">Contact</a> |
-                        <a href="pages/donate.html">Support Us</a>
-                    </p>
-                </div>
-            </footer>
-
-            <script type="text/javascript" src="scripts/index.js"></script>
+            <ul class="menu">
+              <li>Ama Keng</li>
+              <li>Jalan Bahar</li>
+              <li>Jalan Bathera</li>
+              <li class="active">Lorong Asrama</li>
+              <li>Lower Mandai</li>
+              <li>Marsling</li>
+              <li>Tekong</li>
+            </ul>
+          </div>
         </div>
-    </body>
+
+        <div class="map-buttons">
+          <div class="map-toggle">
+            <input
+              type="radio"
+              name="map-radio-group"
+              id="roadmap"
+              value="roadmap"
+              checked
+            />
+            <label for="roadmap" class="roadmap">Roadmap</label>
+            <input
+              type="radio"
+              name="map-radio-group"
+              id="hybrid"
+              value="hybrid"
+            />
+            <label for="hybrid" class="hybrid">Tactical</label>
+          </div>
+        </div>
+
+        <div id="map"></div>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP9pYHfZKn0Ts4xt7eV89X-3YH6ohAKJQ&callback=initMap&v=weekly"
+          defer
+        ></script>
+
+        <p class="instructions" id="mgr-input-result">
+          Or manually input your points.
+        </p>
+        <div id="mgr-input">
+          <div id="mgr-input-group">
+            <input
+              type="tel"
+              maxlength="8"
+              placeholder="Enter your MGR"
+              id="mgr-input-box"
+            />
+            <button id="mgr-input-button" onclick="addUserMGR()">Plot</button>
+          </div>
+        </div>
+
+        <p class="instructions">Set distance intervals.</p>
+        <div class="intervals">
+          <div class="radiogroup">
+            <input
+              type="radio"
+              name="radio-group"
+              id="day"
+              value="day"
+              checked
+            />
+            <label class="radio-left" for="day">Day (100m)</label>
+            <input type="radio" name="radio-group" id="night" value="night" />
+            <label class="radio-right" for="night">Night (50m)</label>
+          </div>
+        </div>
+
+        <p class="instructions">Clear Map or Generate NDS.</p>
+        <div class="follow-up-action">
+          <button id="clear" onclick="deleteMarkers()">Clear</button>
+          <button id="run" onclick="transformCoordinates()">Run</button>
+        </div>
+
+        <div id="table-div"></div>
+      </div>
+
+      <footer>
+        <div id="footer-text">
+          <h3>ORD lo.</h3>
+          <p>
+            <a href="https://github.com/Airiinnn">Alex</a> |
+            <a href="https://github.com/wuihee">Wuihee</a> |
+            <a href="mailto: projectnavex@gmail.com">Contact</a> |
+            <a href="pages/donate.html">Support Us</a>
+          </p>
+        </div>
+      </footer>
+
+      <script type="text/javascript" src="scripts/index.js"></script>
+    </div>
+  </body>
 </html>
